@@ -1,42 +1,229 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calculadora Royal</title>
-<style>
-body { font-family: Arial; background: #f8f8f8; text-align: center; }
-input { margin: 5px; padding: 8px; width: 150px; text-align: right; }
-.result { margin-top: 15px; font-size: 1.2em; font-weight: bold; }
-small { font-size: 0.8em; color: gray; }
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Calculadora Royal — Web</title>
+  <style>
+    :root {
+      --bg:#f6f7fb;
+      --card:#ffffff;
+      --accent:#23395B;
+      --muted:#6b7280;
+    }
+    body {
+      font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+      background: var(--bg);
+      margin: 0;
+      display: flex;
+      min-height: 100vh;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 6px 24px rgba(20,30,60,0.08);
+      width: 100%;
+      max-width: 860px;
+    }
+    h1 {
+      margin: 0 0 20px;
+      font-size: 22px;
+      color: var(--accent);
+    }
+    h2 {
+      margin: 20px 0 10px;
+      font-size: 18px;
+      color: var(--accent);
+      border-bottom: 2px solid rgba(35,57,91,0.15);
+      padding-bottom: 4px;
+    }
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .field {
+      flex: 1 1 200px;
+      min-width: 160px;
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      line-height: 1.2;
+    }
+    label small {
+      display: block;
+      font-size: 11px;
+      color: var(--muted);
+      opacity: 0.7;
+    }
+    input[type="number"] {
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #e6e9ef;
+      font-size: 15px;
+      text-align: right;
+    }
+    .readonly {
+      background: #f9fafb;
+      color: #333;
+      font-weight: 600;
+    }
+    .resultBox {
+      margin-top: 18px;
+      padding: 14px;
+      border-radius: 10px;
+      background: linear-gradient(180deg, rgba(35,57,91,0.03), rgba(35,57,91,0.01));
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .big {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .small {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.2;
+    }
+    @media (max-width: 640px) {
+      .grid { flex-direction: column; }
+      .field { min-width: unset; }
+    }
+  </style>
 </head>
 <body>
-<h2>Calculadora Royal</h2>
+  <main class="card">
+    <h1>Calculadora Royal — Web</h1>
 
-<label>Valor Base (C2): </label>
-<input id="valorBase" type="number" step="0.01" value="7357.89"><br>
+    <!-- Grupo: Dados principais -->
+    <h2>Dados principais</h2>
+    <div class="grid">
+      <div class="field">
+        <label>Valor de Negociação</label>
+        <input id="valorNegociacao" type="number" step="0.01" value="10000" />
+      </div>
+      <div class="field">
+        <label>Desconto (%)</label>
+        <input id="desconto" type="number" step="0.01" value="5" />
+      </div>
+      <div class="field">
+        <label>Valor de Venda</label>
+        <input id="valorVenda" class="readonly" readonly />
+      </div>
+    </div>
 
-<label>Desconto (% C3): </label>
-<input id="desconto" type="number" step="0.01" value="5"><br>
+    <!-- Grupo: Financiamento / Boleto -->
+    <h2>Financiamento / Boleto</h2>
+    <div class="grid">
+      <div class="field">
+        <label>Entrada <small>5% a 10%</small></label>
+        <input id="entrada" type="number" step="0.01" value="10" />
+      </div>
+      <div class="field">
+        <label>Número de parcelas <small>até 30x</small></label>
+        <input id="parcelas" type="number" step="1" value="12" />
+      </div>
+      <div class="field">
+        <label>Valor de entrada</label>
+        <input id="valorEntrada" class="readonly" readonly />
+      </div>
+      <div class="field">
+        <label>Parcela mensal</label>
+        <input id="valorParcela" class="readonly" readonly />
+      </div>
+    </div>
 
-<button onclick="calcular()">Calcular</button>
+    <!-- Grupo: Cartão -->
+    <h2>Cartão de crédito</h2>
+    <div class="grid">
+      <div class="field">
+        <label>Cartão <small>sem juros</small></label>
+        <input id="cartaoSemJuros" class="readonly" readonly />
+      </div>
+    </div>
 
-<div class="result" id="resultado"></div>
+    <!-- Grupo: Totais -->
+    <h2>Totais e informações finais</h2>
+    <div class="grid">
+      <div class="field">
+        <label>Saldo a pagar sem juros</label>
+        <input id="saldoSemJuros" class="readonly" readonly />
+      </div>
+      <div class="field">
+        <label>Valor parcelado</label>
+        <input id="valorParcelado" class="readonly" readonly />
+      </div>
+      <div class="field">
+        <label>Primeira parcela <small>não cai dias 29-30-31</small></label>
+        <input id="primeiraParcela" class="readonly" readonly />
+      </div>
+      <div class="field">
+        <label>Valor total da venda <small>Incluindo juros e taxas</small></label>
+        <input id="valorTotalVenda" class="readonly" readonly />
+      </div>
+      <div class="field">
+        <label>Montante total de juros</label>
+        <input id="totalJuros" class="readonly" readonly />
+      </div>
+    </div>
+  </main>
 
-<script>
-function calcular() {
-  let valorBase = parseFloat(document.getElementById('valorBase').value);
-  let desconto = parseFloat(document.getElementById('desconto').value) / 100;
+  <script>
+    const brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 
-  let valorComDesconto = valorBase * (1 - desconto);
-  let valorParcelado = valorComDesconto / 12;
+    function parsePercent(v) {
+      let n = parseFloat(v);
+      if (isNaN(n)) return 0;
+      if (Math.abs(n) > 1) n = n / 100;
+      return n;
+    }
 
-  let texto = `R$ ${valorComDesconto.toFixed(2)}\n` +
-              `R$ ${valorParcelado.toFixed(2)} em 12x`;
-  document.getElementById('resultado').innerHTML =
-    texto.replace('\n', '<br><small>') + '</small>';
-}
-</script>
+    function calcular() {
+      const valorNegociacao = parseFloat(document.getElementById('valorNegociacao').value) || 0;
+      const desconto = parsePercent(document.getElementById('desconto').value);
+      const entradaPercent = parsePercent(document.getElementById('entrada').value);
+      const parcelas = parseInt(document.getElementById('parcelas').value) || 1;
+
+      const valorVenda = valorNegociacao * (1 - desconto);
+      const valorEntrada = valorVenda * entradaPercent;
+      const saldoSemJuros = valorVenda - valorEntrada;
+      const valorParcela = saldoSemJuros / parcelas;
+
+      // Exemplo simples: juros 1.5% ao mês
+      const taxaJuros = 0.015;
+      const valorParcelado = parcelas > 1
+        ? valorParcela * (1 + taxaJuros) ** parcelas
+        : valorParcela;
+      const valorTotalVenda = valorEntrada + valorParcelado;
+      const totalJuros = valorTotalVenda - valorVenda;
+
+      // Atualiza campos
+      document.getElementById('valorVenda').value = brl.format(valorVenda);
+      document.getElementById('valorEntrada').value = brl.format(valorEntrada);
+      document.getElementById('valorParcela').value = brl.format(valorParcela);
+      document.getElementById('cartaoSemJuros').value = brl.format(valorVenda);
+      document.getElementById('saldoSemJuros').value = brl.format(saldoSemJuros);
+      document.getElementById('valorParcelado').value = brl.format(valorParcelado);
+      document.getElementById('primeiraParcela').value = brl.format(valorParcela);
+      document.getElementById('valorTotalVenda').value = brl.format(valorTotalVenda);
+      document.getElementById('totalJuros').value = brl.format(totalJuros);
+    }
+
+    document.querySelectorAll('input').forEach(el => {
+      el.addEventListener('input', calcular);
+    });
+
+    calcular();
+  </script>
 </body>
 </html>
