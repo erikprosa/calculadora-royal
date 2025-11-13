@@ -6,16 +6,16 @@
 <title>Calculadora Royal — Mobile</title>
 <style>
   :root{
-    --bg:#ffffff;         /* cor sólida única */
+    --bg:#ffffff;
     --card:#ffffff;
     --accent:#23395B;
     --muted:#6b7280;
-    --pink:#F8DCDC;       /* campos editáveis */
-    --yellow:#FFFF66;     /* campos destaque */
+    --pink:#F8DCDC;
+    --yellow:#FFFF66;
     --border:#111;
-    --field-width:60%;    /* reduzido ~20% comparado à versão anterior */
-    --radius:8px;         /* raio reduzido */
-    --box-height:56px;    /* caixas todas do mesmo tamanho */
+    --field-width:60%;
+    --radius:8px;
+    --box-height:56px;
   }
   html,body{height:100%;margin:0;}
   body{
@@ -35,6 +35,22 @@
     box-shadow:0 8px 22px rgba(20,30,60,0.06);
   }
 
+  /* --- Top image circular (aumentado 20%) --- */
+  .topImageWrap {
+    display:flex;
+    justify-content:center;
+    margin-bottom:12px;
+  }
+  .topImage {
+    width:101px;   /* 84 * 1.20 = 100.8 ~ 101 */
+    height:101px;
+    border-radius:50%;
+    overflow:hidden;
+    display:block;
+    object-fit:cover;
+    -webkit-mask-image: -webkit-radial-gradient(circle, white 100%, black 100%);
+  }
+
   h1{font-size:18px;margin:0 0 10px;color:var(--accent);text-align:center;font-weight:700;}
 
   section{margin-top:10px;padding-top:8px;border-top:1px solid rgba(35,57,91,0.03);}
@@ -47,29 +63,36 @@
     padding:8px 0;
   }
 
-  /* LABEL: acima da caixa; texto à esquerda (conteúdo alinhado left dentro do label) */
   label{
     width:var(--field-width);
     text-align:left;
     font-size:13px;
     color:var(--muted);
     font-weight:700;
+    display:flex;
+    align-items:baseline;
+    gap:8px;
   }
   label small{
     font-size:11px;
     color:var(--muted);
     font-weight:400;
     margin-left:6px;
-    font-weight:500;
+  }
+  label small.dynamic{
+    font-size:12px;
+    color:var(--muted);
+    font-weight:600;
+    opacity:0.85;
+    margin-left:6px;
   }
 
-  /* Caixa padrão, mesma largura e altura para todas */
   .inputBox{
     width:var(--field-width);
     height:var(--box-height);
     display:flex;
     align-items:center;
-    justify-content:flex-end;
+    justify-content:center; /* centered inside box */
     box-sizing:border-box;
     padding:10px 14px;
     border-radius:var(--radius);
@@ -78,70 +101,62 @@
     background:#fff;
   }
 
-  /* inputs (text/select) que ficam "dentro" da caixa */
   input.textInput, select{
     outline:none;
     border:none;
     background:transparent;
     width:100%;
-    text-align:right;
+    text-align:center;
     font-size:16px;
     font-weight:800;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    appearance:none;
   }
 
-  /* remove setas number para navegadores (só precaução se algum input number ficar) */
   input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
   input[type=number] { -moz-appearance:textfield; }
 
-  /* BOX STATE: editável rosa */
   .editableBox{ background:var(--pink); }
-
-  /* BOX STATE: destaque amarelo */
   .highlight{ background:var(--yellow); }
-
-  /* BOX STATE: leitura cinza */
   .readonlyBox{ background:#f6f6f6; }
 
-  .twoLines{ display:flex; flex-direction:column; align-items:flex-end; gap:4px; }
+  .twoLines{ display:flex; flex-direction:column; align-items:center; gap:4px; }
 
-  .smallText{
-    font-size:12px;
-    font-weight:600;
-    color:var(--muted);
-    text-align:right;
-  }
+  .smallText{ font-size:12px; font-weight:600; color:var(--muted); text-align:center; }
+  .balance{ font-size:16px; font-weight:800; color:#111; text-align:center; }
 
-  .balance{ font-size:16px; font-weight:800; color:#111; }
-
-  /* Texto auxiliar abaixo da caixa para valorEntrada "R$ X em Nx" */
-  .belowRight {
-    width:var(--field-width);
-    display:flex;
-    justify-content:flex-end;
-    margin-top:6px;
-    font-size:13px;
-    font-weight:700;
-    color:#111;
-  }
-  .belowRight .mutedsmall {
-    font-size:12px;
-    font-weight:600;
-    color:var(--muted);
-  }
-
-  /* nota foot */
   .note{ font-size:12px; color:var(--muted); text-align:center; margin-top:12px; }
+
+  /* assinatura */
+  .signature{
+    font-size:13px;
+    color:var(--muted);
+    text-align:center;
+    margin-top:8px;
+  }
+  .signature a{
+    color:var(--accent);
+    text-decoration:none;
+    font-weight:800;
+  }
 
   @media (max-width:420px){
     :root{ --field-width:86%; }
+    .topImage { width:89px; height:89px; } /* 74 * 1.20 = 88.8 ~ 89 */
   }
 </style>
 </head>
 <body>
   <div class="wrap">
+    <!-- Top circular image (centralizada) -->
+    <div class="topImageWrap">
+      <img class="topImage" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzGsdi29z1OmhjF7m9tYqbpUrX2OV7lqQ7_g&s" alt="Logo">
+    </div>
+
     <div class="card" role="main" aria-label="Calculadora Royal mobile">
       <h1>Calculadora Royal</h1>
 
@@ -158,9 +173,8 @@
           <label for="desconto">DESCONTO <small>(0% a 10%)</small></label>
           <div class="inputBox editableBox" title="Desconto percentual">
             <select id="desconto" class="textInput" aria-label="Desconto percentual">
-              <!-- options 0..10 -->
+              <!-- options populated by JS as '0%', '1%', ... -->
             </select>
-            <span style="margin-left:8px;font-weight:700;color:var(--muted);font-size:14px">%</span>
           </div>
         </div>
 
@@ -180,9 +194,8 @@
           <label for="entrada">ENTRADA <small>(5% a 10%)</small></label>
           <div class="inputBox editableBox" title="Percentual de entrada">
             <select id="entrada" class="textInput" aria-label="Entrada percentual">
-              <!-- options 5..10 -->
+              <!-- options populated by JS as '5%',... -->
             </select>
-            <span style="margin-left:8px;font-weight:700;color:var(--muted);font-size:14px">%</span>
           </div>
         </div>
 
@@ -190,20 +203,15 @@
           <label for="numParcelas">NÚMERO DE PARCELAS <small>(até 30x no boleto)</small></label>
           <div class="inputBox editableBox" title="Número de parcelas">
             <select id="numParcelas" class="textInput" aria-label="Número de parcelas">
-              <!-- options 1..30 -->
+              <!-- options populated by JS as '1x', '2x'... -->
             </select>
-            <span style="margin-left:8px;font-weight:700;color:var(--muted);font-size:14px">x</span>
           </div>
         </div>
 
         <div class="row">
-          <label>VALOR DA ENTRADA</label>
+          <label>VALOR DA ENTRADA <small class="dynamic" id="labelValorEntradaSmall">(R$ 0,00 em 12x)</small></label>
           <div class="inputBox highlight" id="valorEntradaBox" title="Valor da entrada">
             <div id="valorEntradaText" class="balance">R$ 0,00</div>
-          </div>
-          <!-- exibido abaixo da caixa, alinhado à direita -->
-          <div class="belowRight">
-            <div id="valorEntradaMonthly" class="mutedsmall">R$ 0,00 em 12x</div>
           </div>
         </div>
 
@@ -223,7 +231,7 @@
           <label for="cartao">CARTÃO <small>(sem juros)</small></label>
           <div class="inputBox editableBox" title="Parcelas no cartão">
             <select id="cartao" class="textInput" aria-label="Parcelas cartão">
-              <!-- 1..18 -->
+              <!-- options 1..18 populated by JS -->
             </select>
           </div>
         </div>
@@ -242,31 +250,37 @@
 
         <div class="row" style="margin-top:10px">
           <label>SALDO A PAGAR SEM JUROS</label>
-          <div class="inputBox readonlyBox"><div id="saldoSemJurosText">R$ 0,00</div></div>
+          <div class="inputBox readonlyBox"><div id="saldoSemJurosText" class="balance">R$ 0,00</div></div>
         </div>
 
         <div class="row">
           <label>VALOR PARCELADO</label>
-          <div class="inputBox readonlyBox"><div id="valorParceladoText">R$ 0,00</div></div>
+          <div class="inputBox readonlyBox"><div id="valorParceladoText" class="balance">R$ 0,00</div></div>
         </div>
 
         <div class="row">
           <label>PRIMEIRA PARCELA <small>(Não cai 29-30-31)</small></label>
-          <div class="inputBox readonlyBox"><div id="primeiraParcelaText">--/--/----</div></div>
+          <div class="inputBox readonlyBox"><div id="primeiraParcelaText" class="balance">--/--/----</div></div>
         </div>
 
         <div class="row">
           <label>VALOR TOTAL DA VENDA <small>(Incluindo juros e taxas)</small></label>
-          <div class="inputBox readonlyBox"><div id="valorTotalVendaText">R$ 0,00</div></div>
+          <div class="inputBox readonlyBox"><div id="valorTotalVendaText" class="balance">R$ 0,00</div></div>
         </div>
 
         <div class="row">
           <label>MONTANTE TOTAL DE JUROS</label>
-          <div class="inputBox readonlyBox"><div id="totalJurosText">R$ 0,00</div></div>
+          <div class="inputBox readonlyBox"><div id="totalJurosText" class="balance">R$ 0,00</div></div>
         </div>
       </section>
 
       <div class="note">Campos em <strong>rosa</strong> são editáveis. Campos em <strong>amarelo</strong> são os principais em destaque.</div>
+
+      <!-- assinatura solicitada -->
+      <div class="signature" aria-label="assinatura">
+        developed by <a href="https://wa.me/5512988855235" target="_blank" rel="noopener noreferrer">@erikprosa</a>
+      </div>
+
     </div>
   </div>
 
@@ -280,23 +294,18 @@
   }
 
   function parsePercentFromSelect(v){
-    // v is string integer like "5" or "0"
     const n = parseInt(v,10);
     if (isNaN(n)) return 0;
     return n/100;
   }
 
-  // formata e parse para input moeda
   function formatToBRLNumber(value){
     return brl.format(value);
   }
 
   function parseBRLStringToNumber(str){
-    // remove tudo exceto dígitos e vírgula/ponto, transforma em float
     if (!str) return 0;
-    // remove R$, espaços
     let s = String(str).replace(/[R$\s]/g,'');
-    // substituir ponto de milhar e trocar vírgula por ponto
     s = s.replace(/\./g,'').replace(/,/g,'.');
     const n = parseFloat(s);
     return isNaN(n) ? 0 : n;
@@ -310,7 +319,6 @@
     el.value = formatToBRLNumber(round2(rawValue));
   }
 
-  // adiciona dias e ajusta 29/30/31 -> 1 do próximo mês
   function addDaysAdjust(d0, days){
     const d = new Date(d0.getTime());
     d.setDate(d.getDate() + days);
@@ -339,7 +347,7 @@
 
   const outValorVenda = document.getElementById('valorVendaText');
   const outValorEntrada = document.getElementById('valorEntradaText');
-  const outValorEntradaMonthly = document.getElementById('valorEntradaMonthly');
+  const labelValorEntradaSmall = document.getElementById('labelValorEntradaSmall');
   const outValorParcela = document.getElementById('valorParcelaText');
   const outCartaoParcela = document.getElementById('cartaoParcelaText');
   const outSaldoSemJuros = document.getElementById('saldoSemJurosText');
@@ -348,14 +356,14 @@
   const outValorTotalVenda = document.getElementById('valorTotalVendaText');
   const outTotalJuros = document.getElementById('totalJurosText');
 
-  // preenche selects (desconto 0..10, entrada 5..10, parcelas 1..30, cartao 1..18)
+  // preenche selects
   (function populateSelects(){
     for (let i=0;i<=10;i++){
-      const opt = document.createElement('option'); opt.value = String(i); opt.textContent = String(i);
+      const opt = document.createElement('option'); opt.value = String(i); opt.textContent = String(i) + '%';
       elDesconto.appendChild(opt);
     }
     for (let i=5;i<=10;i++){
-      const opt = document.createElement('option'); opt.value = String(i); opt.textContent = String(i);
+      const opt = document.createElement('option'); opt.value = String(i); opt.textContent = String(i) + '%';
       elEntrada.appendChild(opt);
     }
     for (let i=1;i<=30;i++){
@@ -367,14 +375,14 @@
       elCartao.appendChild(opt);
     }
 
-    // valores defaults (conforme seu exemplo)
+    // defaults
     elDesconto.value = '5';
     elEntrada.value = '5';
     elNumParcelas.value = '30';
     elCartao.value = '18';
   })();
 
-  // taxa de juros mensal para financiamento (ajustável)
+  // juros do financiamento (mensal)
   const taxaJurosMensal = 0.015; // 1.5% a.m.
 
   /* ---------- CÁLCULO ---------- */
@@ -382,12 +390,11 @@
     // ler inputs
     const valorNegStr = elValorNeg.value;
     const valorNeg = round2(parseBRLStringToNumber(valorNegStr));
-    // selects: desconto, entrada, parcelas, cartao
-    const desconto = parsePercentFromSelect(elDesconto.value); // ex 0.05
+    const desconto = parsePercentFromSelect(elDesconto.value);
     const entradaPercent = parsePercentFromSelect(elEntrada.value);
     let parcelas = parseInt(elNumParcelas.value,10) || 1;
     parcelas = clamp(parcelas,1,30);
-    let cartaoParcelaCount = parseInt(elCartao.value,10) || 1;
+    let cartaoParcelas = parseInt(elCartao.value,10) || 1;
 
     // cálculos
     const valorVenda = round2(valorNeg * (1 - desconto));
@@ -395,7 +402,7 @@
     const saldoSemJuros = round2(valorVenda - valorEntrada);
     const parcelaMensalSemJuros = parcelas > 0 ? round2(saldoSemJuros / parcelas) : 0;
 
-    // financiamento com juros via fórmula PMT
+    // financiamento com juros (PMT)
     let paymentMonthly = 0;
     let totalParcelado = 0;
     if (parcelas === 1 || taxaJurosMensal === 0){
@@ -412,15 +419,19 @@
 
     const valorTotalVenda = round2(valorEntrada + totalParcelado);
     const totalJuros = round2(valorTotalVenda - valorVenda);
-    const cartaoParcela = cartaoParcelaCount > 0 ? round2(valorVenda / cartaoParcelaCount) : 0;
+    const cartaoParcela = cartaoParcelas > 0 ? round2(valorVenda / cartaoParcelas) : 0;
     const hoje = new Date();
     const primeira = addDaysAdjust(hoje,45);
 
-    // atualizar campos visuais
-    formatCurrencyInputEl(elValorNeg, valorNeg); // mantém input formatado em BRL
+    // atualizar UI
+    formatCurrencyInputEl(elValorNeg, valorNeg);
     outValorVenda.textContent = formatToBRLNumber(valorVenda);
     outValorEntrada.textContent = formatToBRLNumber(valorEntrada);
-    outValorEntradaMonthly.textContent = formatToBRLNumber(round2(valorEntrada / Math.max(1, parcelas))) + ' em ' + parcelas + 'x';
+
+    // update small dynamic label in VALOR DA ENTRADA
+    const entradaPerParcel = round2(valorEntrada / Math.max(1, parcelas));
+    labelValorEntradaSmall.textContent = '(' + formatToBRLNumber(entradaPerParcel) + ' em ' + parcelas + 'x)';
+
     outValorParcela.textContent = formatToBRLNumber(parcelaMensalSemJuros);
     outCartaoParcela.textContent = formatToBRLNumber(cartaoParcela);
     outSaldoSemJuros.textContent = formatToBRLNumber(saldoSemJuros);
@@ -430,42 +441,34 @@
     outTotalJuros.textContent = formatToBRLNumber(totalJuros);
   }
 
-  // quando o usuário digita no campo VALOR DE NEGOCIAÇÃO, queremos aceitar números e formatar como BRL
+  // handle input for valor negociacao: accept digits, format to BRL
   function handleValorNegInput(e){
-    // aceitamos entrada livre: vamos extrair dígitos e vírgula/ponto e formatar
     const raw = e.target.value;
-    // keep only digits
     let onlyNums = raw.replace(/[^\d]/g,'');
     if (onlyNums === '') {
       e.target.value = '';
       return;
     }
-    // interpret last two digits as centavos
     let asNumber = parseFloat(onlyNums) / 100;
     e.target.value = brl.format(asNumber);
-    // disparar recálculo
     calcularTudo();
   }
 
-  // events bindings
   elValorNeg.addEventListener('input', handleValorNegInput);
   elDesconto.addEventListener('change', calcularTudo);
   elEntrada.addEventListener('change', calcularTudo);
   elNumParcelas.addEventListener('change', calcularTudo);
   elCartao.addEventListener('change', calcularTudo);
 
-  // normalize on blur to ensure formatting consistent
   elValorNeg.addEventListener('blur', ()=>{
     const n = parseBRLStringToNumber(elValorNeg.value);
     formatCurrencyInputEl(elValorNeg, n);
     calcularTudo();
   });
 
-  // inicializa valor padrão e calcula
+  // initialize
   (function init(){
-    // se o campo começar com "R$ 7.357,89" (como no exemplo), parse e formata corretamente
-    const defaultStr = elValorNeg.value;
-    const parsed = parseBRLStringToNumber(defaultStr);
+    const parsed = parseBRLStringToNumber(elValorNeg.value);
     formatCurrencyInputEl(elValorNeg, parsed || 7357.89);
     calcularTudo();
   })();
