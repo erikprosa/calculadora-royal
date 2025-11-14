@@ -121,6 +121,9 @@
     appearance:none;
     color:#111; /* força cor escura, evita azul no mobile */
     -webkit-text-fill-color: #111; /* iOS/Android webkit */
+    direction: ltr; /* força left-to-right para evitar deslocamento em alguns mobiles */
+    text-align-last: center; /* força o texto selecionado ao centro em browsers que suportam */
+    -moz-text-align-last: center;
   }
 
   /* opções centralizadas também (quando possível) */
