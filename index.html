@@ -4,176 +4,310 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Calculadora Royal — Mobile</title>
+<meta name="theme-color" content="#ffffff" id="meta-theme-color" />
 <style>
+  /* -----------------------
+     VARIÁVEIS DE TEMA (light / dark + tokens de texto)
+     Edite aqui os --light-... e --dark-... para alterar o tema facilmente
+     ----------------------- */
   :root{
-    --bg:#ffffff;
-    --card:#ffffff;
-    --accent:#23395B;
-    --muted:#6b7280;
-    --pink:#F8DCDC;
-    --yellow:#FFFF66;
-    --border:#111;
-    --field-width:60%;
-    --radius:8px;
-    --box-height:56px;
+    /* --- Light theme --- */
+    --light-bg: #ffffff;
+    --light-card: #ffffff;
+    --light-accent: #23395B;
+    --light-muted: #6b7280;
+    --light-pink: #F8DCDC;
+    --light-yellow: #FFFF66;
+    --light-border: #111;
+
+    /* text groups (light) */
+    --light-label-text: #6b7280;
+    --light-box-text: #23395B;
+    --light-main-text: #12223a;
+    --light-final-desc: #6b7280;
+    --light-credit-developer: #6b7280;
+    --light-credit-handle: #23395B;
+
+    /* switch tokens (light) */
+    --light-icon-active: #000000;
+    --light-icon-inactive: #8a8a8a;
+    --light-switch-track: #E6E6EA;
+    --light-switch-knob: #FFFFFF;
+    --light-switch-active-track: #D1D5DB;
+    --light-switch-border: rgba(0,0,0,0.12);
+
+    /* logo URLs for light/dark (editable) */
+    --light-logo: url("https://raw.githubusercontent.com/erikprosa/calculadora-royal/2d83a7735140ea56946b9eb71d47e5c151829820/Logo.svg");
+    --dark-logo: url("https://raw.githubusercontent.com/erikprosa/calculadora-royal/2d83a7735140ea56946b9eb71d47e5c151829820/Logo_White.svg");
+
+    /* --- Dark theme --- */
+    --dark-bg: #212830;
+    --dark-card: #0f1720;
+    --dark-accent: #DDE8FF;
+    --dark-muted: #A3A8B3;
+    --dark-pink: #F8DCDC;
+    --dark-yellow: #FFFF66;
+    --dark-border: #222;
+
+    /* text groups (dark) */
+    --dark-label-text: #A3A8B3;
+    --dark-box-text: #DDE8FF;
+    --dark-main-text: #E8F2FF;
+    --dark-final-desc: #A3A8B3;
+    --dark-credit-developer: #A3A8B3;
+    --dark-credit-handle: #DDE8FF;
+
+    /* switch tokens (dark) */
+    --dark-icon-active: #000000;
+    --dark-icon-inactive: #8a8a8a;
+    --dark-switch-track: #2b3035;
+    --dark-switch-knob: #d3d3d3;
+    --dark-switch-active-track: #3a3f45;
+    --dark-switch-border: rgba(255,255,255,0.08);
+
+    /* derived (active) variables default to light */
+    --bg: var(--light-bg);
+    --card: var(--light-card);
+    --accent: var(--light-accent);
+    --muted: var(--light-muted);
+    --pink: var(--light-pink);
+    --yellow: var(--light-yellow);
+    --border: var(--light-border);
+
+    --icon-active: var(--light-icon-active);
+    --icon-inactive: var(--light-icon-inactive);
+    --switch-track: var(--light-switch-track);
+    --switch-knob: var(--light-switch-knob);
+    --switch-active-track: var(--light-switch-active-track);
+    --switch-border: var(--light-switch-border);
+
+    --label-text: var(--light-label-text);
+    --box-text: var(--light-box-text);
+    --main-text: var(--light-main-text);
+    --final-desc: var(--light-final-desc);
+    --credit-developer: var(--light-credit-developer);
+    --credit-handle: var(--light-credit-handle);
+
+    /* layout sizes */
+    --field-width: 60%;
+    --radius: 8px;
+    --box-height: 56px;
   }
 
-  /* Reset básico */
+  /* when dark theme active, remap derived variables to dark tokens */
+  .theme-dark {
+    --bg: var(--dark-bg);
+    --card: var(--dark-card);
+    --accent: var(--dark-accent);
+    --muted: var(--dark-muted);
+    --pink: var(--dark-pink);
+    --yellow: var(--dark-yellow);
+    --border: var(--dark-border);
+
+    --icon-active: var(--dark-icon-active);
+    --icon-inactive: var(--dark-icon-inactive);
+    --switch-track: var(--dark-switch-track);
+    --switch-knob: var(--dark-switch-knob);
+    --switch-active-track: var(--dark-switch-active-track);
+    --switch-border: var(--dark-switch-border);
+
+    --label-text: var(--dark-label-text);
+    --box-text: var(--dark-box-text);
+    --main-text: var(--dark-main-text);
+    --final-desc: var(--dark-final-desc);
+    --credit-developer: var(--dark-credit-developer);
+    --credit-handle: var(--dark-credit-handle);
+  }
+
+  /* -----------------------
+     LAYOUT / ESTILOS GERAIS
+     ----------------------- */
   *{box-sizing:border-box}
   html,body{height:100%;margin:0;}
   body{
     font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
     background: var(--bg);
+    color: var(--accent);
     display:flex;
     align-items:flex-start;
     justify-content:center;
     padding:18px 12px;
     -webkit-font-smoothing:antialiased;
     -moz-osx-font-smoothing:grayscale;
+    transition: background .22s ease, color .22s ease;
   }
 
   .wrap{ width:100%; max-width:520px; }
   .card{
-    background:var(--card);
+    background: var(--card);
     border-radius:14px;
-    padding:16px 14px 20px 14px;
-    box-shadow:0 8px 22px rgba(20,30,60,0.06);
+    padding:16px 14px 22px 14px;
+    box-shadow: 0 8px 22px rgba(20,30,60,0.06);
+    color: var(--accent);
+    transition: background .22s ease, color .22s ease, box-shadow .22s ease;
+    position: relative;
+    overflow: visible;
   }
 
-  /* logo top circular */
-  .topImageWrap {
-    display:flex;
-    justify-content:center;
-    margin-bottom:12px;
+  .topImageWrap { display:flex; justify-content:center; margin-bottom:12px; }
+  .topImageLink{
+    width:121px; height:121px; border-radius:50%; overflow:hidden; display:inline-block;
+    display:flex; align-items:center; justify-content:center;
   }
   .topImage {
-    width:101px;   /* 20% maior */
-    height:101px;
-    border-radius:50%;
-    overflow:hidden;
-    display:block;
-    object-fit:cover;
-    -webkit-mask-image: -webkit-radial-gradient(circle, white 100%, black 100%);
+    width:100%; height:100%; display:block; object-fit:contain; max-width:100%;
   }
 
-  h1{font-size:18px;margin:0 0 10px;color:var(--accent);text-align:center;font-weight:700;}
+  h1{ font-size:18px;margin:0 0 10px; color:var(--main-text); text-align:center; font-weight:700; }
+  .section-title{ text-align:center; margin-top:6px; font-weight:800; color:var(--main-text); }
 
-  section{margin-top:10px;padding-top:8px;border-top:1px solid rgba(35,57,91,0.03);}
+  section{ margin-top:10px; padding-top:8px; border-top:1px solid rgba(35,57,91,0.03); }
 
-  .row{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:6px;
-    padding:8px 0;
-  }
+  .row{ display:flex; flex-direction:column; align-items:center; gap:6px; padding:8px 0; }
 
   label{
     width:var(--field-width);
     text-align:left;
     font-size:13px;
-    color:var(--muted);
+    color:var(--label-text);
     font-weight:700;
     display:flex;
     align-items:baseline;
     gap:8px;
   }
-  label small{
-    font-size:11px;
-    color:var(--muted);
-    font-weight:400;
-    margin-left:6px;
-  }
-  label small.dynamic{
-    font-size:12px;
-    color:var(--muted);
-    font-weight:600;
-    opacity:0.85;
-    margin-left:6px;
-  }
+  label small{ font-size:11px;color:var(--label-text);font-weight:400;margin-left:6px; }
+  label small.dynamic{ font-size:12px;color:var(--label-text);font-weight:600;opacity:0.85;margin-left:6px; }
 
-  /* caixas com tamanho igual */
   .inputBox{
     width:var(--field-width);
     height:var(--box-height);
     display:flex;
     align-items:center;
-    justify-content:center; /* centraliza conteúdos (inputs/selects) */
-    box-sizing:border-box;
-    padding:0 14px; /* pouco padding, texto centralizado */
+    justify-content:center;
+    padding:0 14px;
     border-radius:var(--radius);
     border:2px solid var(--border);
     font-weight:700;
     background:#fff;
+    transition: background .18s ease, border-color .18s ease;
   }
 
-  /* inputs e selects: texto centralizado e cor consistente */
   input.textInput, select.textInput{
-    outline:none;
-    border:none;
-    background:transparent;
-    width:100%;
-    text-align:center; /* CENTRALIZA TEXTO */
-    font-size:16px;
-    font-weight:800;
-    -webkit-appearance:none;
-    -moz-appearance:none;
-    appearance:none;
-    color:#111; /* força cor escura, evita azul no mobile */
-    -webkit-text-fill-color: #111; /* iOS/Android webkit */
-    direction: ltr; /* força left-to-right para evitar deslocamento em alguns mobiles */
-    text-align-last: center; /* força o texto selecionado ao centro em browsers que suportam */
-    -moz-text-align-last: center;
+    outline:none;border:none;background:transparent;width:100%;
+    text-align:center;font-size:16px;font-weight:800;
+    -webkit-appearance:none;-moz-appearance:none;appearance:none;
+    color: var(--box-text); -webkit-text-fill-color: var(--box-text);
+    direction: ltr; text-align-last: center; -moz-text-align-last: center;
   }
 
-  /* opções centralizadas também (quando possível) */
-  select.textInput option{
-    text-align:center;
-    color:#111;
-  }
-
-  /* Esconder seta nativa visual (alguns navegadores) e manter aparência limpa */
+  select.textInput option{ text-align:center; color:var(--box-text); }
   select.textInput::-ms-expand { display: none; }
-  select.textInput { -webkit-appearance:none; -moz-appearance:none; appearance:none; }
 
-  /* BOX STATES */
-  .editableBox{ background:var(--pink); }
-  .highlight{ background:var(--yellow); }
-  .readonlyBox{ background:#f6f6f6; }
-
-  .twoLines{ display:flex; flex-direction:column; align-items:center; gap:4px; }
+  .editableBox{ background: var(--pink); }
+  .highlight{ background: var(--yellow); }
+  .readonlyBox{ background: #f6f6f6; }
 
   .smallText{ font-size:12px; font-weight:600; color:var(--muted); text-align:center; }
-  .balance{ font-size:16px; font-weight:800; color:#111; text-align:center; }
+  .balance{ font-size:16px; font-weight:800; color:var(--accent); text-align:center; }
 
-  .note{ font-size:12px; color:var(--muted); text-align:center; margin-top:12px; }
+  .note{ font-size:12px; color:var(--final-desc); text-align:center; margin-top:12px; }
 
-  /* assinatura */
-  .signature{
-    font-size:13px;
-    color:var(--muted);
-    text-align:center;
-    margin-top:8px;
+  .signature{ font-size:13px;color:var(--credit-developer);text-align:center;margin-top:8px; }
+  .signature .handle{ color:var(--credit-handle); font-weight:800; text-decoration:none; margin-left:6px; }
+  .signature a{ color:inherit; text-decoration:none; font-weight:800; }
+
+  /* -----------------------
+     THEME SWITCH (corrigido)
+     ícones DENTRO da bolinha (knob)
+     ícones reduzidos em 20% (16px)
+     ----------------------- */
+  .theme-container { display:flex; justify-content:center; margin-top:12px; margin-bottom:8px; }
+
+  .switch {
+    --w:54px; --h:28px;
+    width:var(--w); height:var(--h); border-radius:999px;
+    background: var(--switch-track);
+    display:inline-flex; align-items:center; padding:4px; box-sizing:border-box;
+    transition: background .18s ease, border-color .12s ease; position: relative; z-index:1;
+    border: 2px solid var(--switch-border); overflow: visible;
   }
-  .signature a{
-    color:var(--accent);
-    text-decoration:none;
-    font-weight:800;
+
+  .switch.active { background: var(--switch-active-track); }
+
+  /* knob: contém os ícones, centraliza via flexbox */
+  .knob {
+    width: calc(var(--h) - 8px);
+    height: calc(var(--h) - 8px);
+    background: var(--switch-knob);
+    border-radius:50%;
+    position: absolute;
+    left:4px;
+    display:flex;
+    align-items:center;
+    justify-content:center;   /* centraliza os ícones */
+    overflow:hidden;
+    transition: transform .20s ease, background .18s ease;
+    z-index:2;
+  }
+
+  .switch.active .knob {
+    transform: translateX(calc(var(--w) - var(--h)));
+  }
+
+  /* ícones dentro do knob (reduzidos em 20% -> 16px) */
+  .knob .icon-sun,
+  .knob .icon-moon {
+    width:16px;
+    height:16px;
+    position:absolute;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    opacity:0;
+    transition: opacity .18s ease, transform .18s ease;
+    color: var(--icon-inactive);
+    pointer-events:none;
+  }
+
+  /* tema claro -> sol visível */
+  .switch:not(.active) .knob .icon-sun {
+    opacity:1;
+    color: var(--icon-active);
+    transform: scale(1);
+  }
+
+  /* tema escuro -> lua visível */
+  .switch.active .knob .icon-moon {
+    opacity:1;
+    color: var(--icon-active);
+    transform: scale(1);
+  }
+
+  /* forçar SVG a herdar currentColor */
+  .knob svg path,
+  .knob svg circle,
+  .knob svg rect,
+  .knob svg g {
+    fill: currentColor !important;
+    stroke: none !important;
   }
 
   @media (max-width:420px){
     :root{ --field-width:86%; }
-    .topImage { width:89px; height:89px; } /* 20% maior em mobile também */
+    .topImageLink { width:107px; height:107px; }
   }
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="topImageWrap">
-      <img class="topImage" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzGsdi29z1OmhjF7m9tYqbpUrX2OV7lqQ7_g&s" alt="Logo">
-    </div>
+  <div class="wrap" id="wrap">
+    <div class="card" id="card" role="main" aria-label="Calculadora Royal mobile">
+      <div class="topImageWrap">
+        <a class="topImageLink" href="https://www.royalprestige.com/br" target="_blank" rel="noopener noreferrer" aria-label="Visitar Royal Prestige">
+          <!-- topImage src will be set by JS according to theme -->
+          <img class="topImage" src="" alt="Logo Royal Prestige" id="topLogo">
+        </a>
+      </div>
 
-    <div class="card" role="main" aria-label="Calculadora Royal mobile">
       <h1>Calculadora Royal</h1>
 
       <!-- DADOS PRINCIPAIS -->
@@ -188,9 +322,7 @@
         <div class="row">
           <label for="desconto">DESCONTO <small>(0% a 10%)</small></label>
           <div class="inputBox editableBox" title="Desconto percentual">
-            <select id="desconto" class="textInput" aria-label="Desconto percentual">
-              <!-- preenchido por JS -->
-            </select>
+            <select id="desconto" class="textInput" aria-label="Desconto percentual"></select>
           </div>
         </div>
 
@@ -204,23 +336,19 @@
 
       <!-- FINANCIAMENTO / BOLETO -->
       <section aria-labelledby="fin-title">
-        <div style="text-align:center;margin-top:6px;font-weight:800;color:var(--accent)">FINANCIAMENTO / BOLETO</div>
+        <div class="section-title">FINANCIAMENTO / BOLETO</div>
 
         <div class="row" style="margin-top:10px">
           <label for="entrada">ENTRADA <small>(5% a 10%)</small></label>
           <div class="inputBox editableBox" title="Percentual de entrada">
-            <select id="entrada" class="textInput" aria-label="Entrada percentual">
-              <!-- preenchido por JS -->
-            </select>
+            <select id="entrada" class="textInput" aria-label="Entrada percentual"></select>
           </div>
         </div>
 
         <div class="row">
           <label for="numParcelas">NÚMERO DE PARCELAS <small>(até 30x no boleto)</small></label>
           <div class="inputBox editableBox" title="Número de parcelas">
-            <select id="numParcelas" class="textInput" aria-label="Número de parcelas">
-              <!-- preenchido por JS -->
-            </select>
+            <select id="numParcelas" class="textInput" aria-label="Número de parcelas"></select>
           </div>
         </div>
 
@@ -241,14 +369,12 @@
 
       <!-- CARTÃO -->
       <section aria-labelledby="cartao-title">
-        <div style="text-align:center;margin-top:6px;font-weight:800;color:var(--accent)">CARTÃO DE CRÉDITO</div>
+        <div class="section-title">CARTÃO DE CRÉDITO</div>
 
         <div class="row" style="margin-top:10px">
           <label for="cartao">CARTÃO <small>(sem juros)</small></label>
           <div class="inputBox editableBox" title="Parcelas no cartão">
-            <select id="cartao" class="textInput" aria-label="Parcelas cartão">
-              <!-- preenchido por JS -->
-            </select>
+            <select id="cartao" class="textInput" aria-label="Parcelas cartão"></select>
           </div>
         </div>
 
@@ -262,7 +388,7 @@
 
       <!-- TOTAIS -->
       <section aria-labelledby="totais-title">
-        <div style="text-align:center;margin-top:6px;font-weight:800;color:var(--accent)">TOTAIS E INFORMAÇÕES FINAIS</div>
+        <div class="section-title">TOTAIS E INFORMAÇÕES FINAIS</div>
 
         <div class="row" style="margin-top:10px">
           <label>SALDO A PAGAR SEM JUROS</label>
@@ -290,204 +416,306 @@
         </div>
       </section>
 
+      <!-- THEME SWITCH: ícones injetados dentro do knob -->
+      <div class="theme-container">
+        <button id="themeSwitch" aria-pressed="false" class="switch" title="Alternar tema" type="button">
+          <div class="knob">
+            <span class="icon-sun" aria-hidden="true" data-src="https://raw.githubusercontent.com/erikprosa/calculadora-royal/1b6d47a1d1b59521e0f5991a7ed42505b40dc01b/sol.svg"></span>
+            <span class="icon-moon" aria-hidden="true" data-src="https://raw.githubusercontent.com/erikprosa/calculadora-royal/1b6d47a1d1b59521e0f5991a7ed42505b40dc01b/lua.svg"></span>
+          </div>
+        </button>
+      </div>
+
       <div class="note">Campos em <strong>rosa</strong> são editáveis. Campos em <strong>amarelo</strong> são os principais em destaque.</div>
 
       <div class="signature" aria-label="assinatura">
-        developed by <a href="https://wa.me/5512988855235" target="_blank" rel="noopener noreferrer">@erikprosa</a>
+        <span class="developer">developed by</span>
+        <a class="handle" href="https://wa.me/5512988855235" target="_blank" rel="noopener noreferrer">@erikprosa</a>
       </div>
 
     </div>
   </div>
 
 <script>
-  /* ---------- UTILITÁRIOS ---------- */
-  const brl = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'});
+/* -----------------------
+   INJEÇÃO DOS SVGs DO SWITCH (busca as URLs que você forneceu)
+   - Injeta inline para permitir styling via currentColor
+   - Remove atributos 'fill'/'stroke' fixos e força fill=currentColor
+   - Define tamanho dos SVGs para 16px (reduzido 20%)
+   ----------------------- */
+async function injectIcon(spanEl) {
+  const url = spanEl.getAttribute('data-src');
+  if (!url) return;
+  try {
+    const resp = await fetch(url, {cache: "no-cache"});
+    if (!resp.ok) throw new Error('fetch failed');
+    const txt = await resp.text();
+    // Parse SVG
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(txt, "image/svg+xml");
+    const svg = doc.querySelector('svg');
+    if (!svg) throw new Error('no svg found');
 
-  function clamp(n, min, max){
-    if (isNaN(n)) return min;
-    return Math.min(max, Math.max(min, n));
-  }
-
-  function parsePercentFromSelect(v){
-    const n = parseInt(String(v).replace('%',''),10);
-    if (isNaN(n)) return 0;
-    return n/100;
-  }
-
-  function formatToBRLNumber(value){
-    return brl.format(value);
-  }
-
-  function parseBRLStringToNumber(str){
-    if (!str) return 0;
-    let s = String(str).replace(/[R$\s]/g,'');
-    s = s.replace(/\./g,'').replace(/,/g,'.');
-    const n = parseFloat(s);
-    return isNaN(n) ? 0 : n;
-  }
-
-  function round2(n){
-    return Math.round((n + Number.EPSILON) * 100) / 100;
-  }
-
-  function formatCurrencyInputEl(el, rawValue){
-    el.value = formatToBRLNumber(round2(rawValue));
-  }
-
-  function addDaysAdjust(d0, days){
-    const d = new Date(d0.getTime());
-    d.setDate(d.getDate() + days);
-    const day = d.getDate();
-    if (day >= 29) {
-      const m = d.getMonth();
-      const y = d.getFullYear();
-      return new Date(y, m+1, 1);
-    }
-    return d;
-  }
-
-  function formatDateBR(d){
-    const dd = String(d.getDate()).padStart(2,'0');
-    const mm = String(d.getMonth()+1).padStart(2,'0');
-    const yyyy = d.getFullYear();
-    return dd + '/' + mm + '/' + yyyy;
-  }
-
-  /* ---------- ELEMENTOS ---------- */
-  const elValorNeg = document.getElementById('valorNeg');
-  const elDesconto = document.getElementById('desconto');
-  const elEntrada = document.getElementById('entrada');
-  const elNumParcelas = document.getElementById('numParcelas');
-  const elCartao = document.getElementById('cartao');
-
-  const outValorVenda = document.getElementById('valorVendaText');
-  const outValorEntrada = document.getElementById('valorEntradaText');
-  const labelValorEntradaSmall = document.getElementById('labelValorEntradaSmall');
-  const outValorParcela = document.getElementById('valorParcelaText');
-  const outCartaoParcela = document.getElementById('cartaoParcelaText');
-  const outSaldoSemJuros = document.getElementById('saldoSemJurosText');
-  const outValorParcelado = document.getElementById('valorParceladoText');
-  const outPrimeiraParcela = document.getElementById('primeiraParcelaText');
-  const outValorTotalVenda = document.getElementById('valorTotalVendaText');
-  const outTotalJuros = document.getElementById('totalJurosText');
-
-  // preenche selects
-  (function populateSelects(){
-    for (let i=0;i<=10;i++){
-      const opt = document.createElement('option'); opt.value = String(i) + '%'; opt.textContent = String(i) + '%';
-      elDesconto.appendChild(opt);
-    }
-    for (let i=5;i<=10;i++){
-      const opt = document.createElement('option'); opt.value = String(i) + '%'; opt.textContent = String(i) + '%';
-      elEntrada.appendChild(opt);
-    }
-    for (let i=1;i<=30;i++){
-      const opt = document.createElement('option'); opt.value = String(i); opt.textContent = String(i) + 'x';
-      elNumParcelas.appendChild(opt);
-    }
-    for (let i=1;i<=18;i++){
-      const opt = document.createElement('option'); opt.value = String(i); opt.textContent = String(i) + 'x';
-      elCartao.appendChild(opt);
+    // Normalize size to 16px (20% smaller than 20px)
+    svg.setAttribute('width', '16');
+    svg.setAttribute('height', '16');
+    // If no viewBox, set a default (keeps aspect)
+    if (!svg.getAttribute('viewBox')) {
+      const w = svg.getAttribute('width') || '16';
+      const h = svg.getAttribute('height') || '16';
+      svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
     }
 
-    // defaults
-    elDesconto.value = '5%';
-    elEntrada.value = '5%';
-    elNumParcelas.value = '30';
-    elCartao.value = '18';
-  })();
+    // Remove any inline fill/stroke that would override currentColor
+    const elements = svg.querySelectorAll('[fill],[stroke]');
+    elements.forEach(el=>{
+      el.removeAttribute('fill');
+      el.removeAttribute('stroke');
+    });
 
-  // juros do financiamento (mensal)
-  const taxaJurosMensal = 0.015; // 1.5% a.m.
+    svg.style.display = 'block';
+    // Clear span and append svg
+    spanEl.innerHTML = '';
+    spanEl.appendChild(svg);
+  } catch (err) {
+    // Fallback minimal shape
+    spanEl.innerHTML = '';
+    const fallbackSvg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    fallbackSvg.setAttribute('viewBox','0 0 24 24');
+    fallbackSvg.setAttribute('width','16');
+    fallbackSvg.setAttribute('height','16');
+    const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d','M12 4a1 1 0 110 2 6 6 0 100 12 1 1 0 110 2 8 8 0 110-16z');
+    fallbackSvg.appendChild(path);
+    spanEl.appendChild(fallbackSvg);
+  }
+}
 
-  /* ---------- CÁLCULO ---------- */
-  function calcularTudo(){
-    // ler inputs
-    const valorNegStr = elValorNeg.value;
-    const valorNeg = round2(parseBRLStringToNumber(valorNegStr));
-    const desconto = parsePercentFromSelect(elDesconto.value);
-    const entradaPercent = parsePercentFromSelect(elEntrada.value);
-    let parcelas = parseInt(elNumParcelas.value,10) || 1;
-    parcelas = clamp(parcelas,1,30);
-    let cartaoParcelas = parseInt(elCartao.value,10) || 1;
+/* Inject both icons on startup (they are inside .knob) */
+document.querySelectorAll('.knob .icon-sun, .knob .icon-moon').forEach(span => {
+  injectIcon(span);
+});
 
-    // cálculos
-    const valorVenda = round2(valorNeg * (1 - desconto));
-    const valorEntrada = round2(valorVenda * entradaPercent);
-    const saldoSemJuros = round2(valorVenda - valorEntrada);
-    const parcelaMensalSemJuros = parcelas > 0 ? round2(saldoSemJuros / parcelas) : 0;
+/* -----------------------
+   THEME HANDLER
+   - persiste em localStorage
+   - aplica .theme-dark que remapeia variáveis
+   - troca o logo (top image) de acordo com o tema
+   ----------------------- */
+(function themeInit(){
+  const stored = localStorage.getItem('royal_theme'); // 'dark'|'light'|null
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  let current = stored || (prefersDark ? 'dark' : 'light');
 
-    // financiamento com juros (PMT)
-    let paymentMonthly = 0;
-    let totalParcelado = 0;
-    if (parcelas === 1 || taxaJurosMensal === 0){
-      paymentMonthly = saldoSemJuros;
-      totalParcelado = paymentMonthly;
+  const switchBtn = document.getElementById('themeSwitch');
+  const metaTheme = document.getElementById('meta-theme-color');
+  const topLogoImg = document.getElementById('topLogo');
+
+  // helper to get URLs from CSS variables (since we stored them with url("..."))
+  function cssVarUrl(varName) {
+    const raw = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+    // raw is like: url("https://...") -> extract inside quotes/parentheses
+    const m = raw.match(/url\((?:'|")?(.*?)(?:'|")?\)/);
+    return m ? m[1] : raw;
+  }
+
+  // preload image (returns promise)
+  function preloadImage(src){
+    return new Promise((resolve)=> {
+      const img = new Image();
+      img.onload = () => resolve(src);
+      img.onerror = () => resolve(src); // resolve anyway to avoid blocking
+      img.src = src;
+    });
+  }
+
+  async function applyTheme(theme){
+    if (theme === 'dark'){
+      document.body.classList.add('theme-dark');
+      switchBtn.classList.add('active');
+      switchBtn.setAttribute('aria-pressed','true');
     } else {
-      const i = taxaJurosMensal;
-      const n = parcelas;
-      const factor = Math.pow(1+i, n);
-      paymentMonthly = saldoSemJuros * (i * factor) / (factor - 1);
-      paymentMonthly = round2(paymentMonthly);
-      totalParcelado = round2(paymentMonthly * n);
+      document.body.classList.remove('theme-dark');
+      switchBtn.classList.remove('active');
+      switchBtn.setAttribute('aria-pressed','false');
     }
 
-    const valorTotalVenda = round2(valorEntrada + totalParcelado);
-    const totalJuros = round2(valorTotalVenda - valorVenda);
-    const cartaoParcela = cartaoParcelas > 0 ? round2(valorVenda / cartaoParcelas) : 0;
-    const hoje = new Date();
-    const primeira = addDaysAdjust(hoje,45);
+    // atualiza meta theme color para o background atual (usa a variável --bg)
+    const bg = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || (theme === 'dark' ? '#212830' : '#ffffff');
+    metaTheme.setAttribute('content', bg);
 
-    // atualizar UI
-    formatCurrencyInputEl(elValorNeg, valorNeg);
-    outValorVenda.textContent = formatToBRLNumber(valorVenda);
-    outValorEntrada.textContent = formatToBRLNumber(valorEntrada);
+    // troca o logo com preload para evitar flicker
+    const lightLogoUrl = cssVarUrl('--light-logo');
+    const darkLogoUrl = cssVarUrl('--dark-logo');
+    const target = theme === 'dark' ? darkLogoUrl : lightLogoUrl;
 
-    // update small dynamic label in VALOR DA ENTRADA
-    const entradaPerParcel = round2(valorEntrada / Math.max(1, parcelas));
-    labelValorEntradaSmall.textContent = '(' + formatToBRLNumber(entradaPerParcel) + ' em ' + parcelas + 'x)';
-
-    outValorParcela.textContent = formatToBRLNumber(parcelaMensalSemJuros);
-    outCartaoParcela.textContent = formatToBRLNumber(cartaoParcela);
-    outSaldoSemJuros.textContent = formatToBRLNumber(saldoSemJuros);
-    outValorParcelado.textContent = formatToBRLNumber(totalParcelado);
-    outPrimeiraParcela.textContent = formatDateBR(primeira);
-    outValorTotalVenda.textContent = formatToBRLNumber(valorTotalVenda);
-    outTotalJuros.textContent = formatToBRLNumber(totalJuros);
-  }
-
-  // handle input for valor negociacao: accept digits, format to BRL
-  function handleValorNegInput(e){
-    const raw = e.target.value;
-    let onlyNums = raw.replace(/[^\d]/g,'');
-    if (onlyNums === '') {
-      e.target.value = '';
-      return;
+    try {
+      await preloadImage(target);
+      // set src only after load attempt (keeps things snappy; if failed still sets)
+      topLogoImg.setAttribute('src', target);
+      // optionally adjust alt
+      topLogoImg.setAttribute('alt', theme === 'dark' ? 'Logo Royal (versão branca)' : 'Logo Royal');
+    } catch (e) {
+      topLogoImg.setAttribute('src', target);
     }
-    let asNumber = parseFloat(onlyNums) / 100;
-    e.target.value = brl.format(asNumber);
-    calcularTudo();
+
+    localStorage.setItem('royal_theme', theme);
   }
 
-  elValorNeg.addEventListener('input', handleValorNegInput);
-  elDesconto.addEventListener('change', calcularTudo);
-  elEntrada.addEventListener('change', calcularTudo);
-  elNumParcelas.addEventListener('change', calcularTudo);
-  elCartao.addEventListener('change', calcularTudo);
+  applyTheme(current);
 
-  elValorNeg.addEventListener('blur', ()=>{
-    const n = parseBRLStringToNumber(elValorNeg.value);
-    formatCurrencyInputEl(elValorNeg, n);
-    calcularTudo();
+  switchBtn.addEventListener('click', ()=>{
+    current = (current === 'dark') ? 'light' : 'dark';
+    applyTheme(current);
   });
 
-  // initialize
-  (function init(){
-    const parsed = parseBRLStringToNumber(elValorNeg.value);
-    formatCurrencyInputEl(elValorNeg, parsed || 7357.89);
-    calcularTudo();
-  })();
+  if (!stored && window.matchMedia){
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e=>{
+      current = e.matches ? 'dark' : 'light';
+      applyTheme(current);
+    });
+  }
+})();
 
+/* -----------------------
+   CÁLCULOS E LÓGICA (inalterados)
+   ----------------------- */
+const brl = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'});
+
+function clamp(n, min, max){ if (isNaN(n)) return min; return Math.min(max, Math.max(min, n)); }
+function parsePercentFromSelect(v){ const n = parseInt(String(v).replace('%',''),10); if (isNaN(n)) return 0; return n/100; }
+function formatToBRLNumber(value){ return brl.format(value); }
+function parseBRLStringToNumber(str){
+  if (!str) return 0;
+  let s = String(str).replace(/[R$\s]/g,'');
+  s = s.replace(/\./g,'').replace(/,/g,'.');
+  const n = parseFloat(s);
+  return isNaN(n) ? 0 : n;
+}
+function round2(n){ return Math.round((n + Number.EPSILON) * 100) / 100; }
+function formatCurrencyInputEl(el, rawValue){ el.value = formatToBRLNumber(round2(rawValue)); }
+function addDaysAdjust(d0, days){
+  const d = new Date(d0.getTime());
+  d.setDate(d.getDate() + days);
+  const day = d.getDate();
+  if (day >= 29) {
+    const m = d.getMonth(); const y = d.getFullYear();
+    return new Date(y, m+1, 1);
+  }
+  return d;
+}
+function formatDateBR(d){ const dd = String(d.getDate()).padStart(2,'0'); const mm = String(d.getMonth()+1).padStart(2,'0'); const yyyy = d.getFullYear(); return dd + '/' + mm + '/' + yyyy; }
+
+const elValorNeg = document.getElementById('valorNeg');
+const elDesconto = document.getElementById('desconto');
+const elEntrada = document.getElementById('entrada');
+const elNumParcelas = document.getElementById('numParcelas');
+const elCartao = document.getElementById('cartao');
+
+const outValorVenda = document.getElementById('valorVendaText');
+const outValorEntrada = document.getElementById('valorEntradaText');
+const labelValorEntradaSmall = document.getElementById('labelValorEntradaSmall');
+const outValorParcela = document.getElementById('valorParcelaText');
+const outCartaoParcela = document.getElementById('cartaoParcelaText');
+const outSaldoSemJuros = document.getElementById('saldoSemJurosText');
+const outValorParcelado = document.getElementById('valorParceladoText');
+const outPrimeiraParcela = document.getElementById('primeiraParcelaText');
+const outValorTotalVenda = document.getElementById('valorTotalVendaText');
+const outTotalJuros = document.getElementById('totalJurosText');
+
+(function populateSelects(){
+  for (let i=0;i<=10;i++){
+    const opt = document.createElement('option'); opt.value = String(i) + '%'; opt.textContent = String(i) + '%';
+    elDesconto.appendChild(opt);
+  }
+  for (let i=5;i<=10;i++){
+    const opt = document.createElement('option'); opt.value = String(i) + '%'; opt.textContent = String(i) + '%';
+    elEntrada.appendChild(opt);
+  }
+  for (let i=1;i<=30;i++){
+    const opt = document.createElement('option'); opt.value = String(i); opt.textContent = String(i) + 'x';
+    elNumParcelas.appendChild(opt);
+  }
+  for (let i=1;i<=18;i++){
+    const opt = document.createElement('option'); opt.value = String(i); opt.textContent = String(i) + 'x';
+    elCartao.appendChild(opt);
+  }
+  elDesconto.value = '5%';
+  elEntrada.value = '5%';
+  elNumParcelas.value = '30';
+  elCartao.value = '18';
+})();
+
+const taxaJurosMensal = 0.015; // 1.5% a.m.
+
+function calcularTudo(){
+  const valorNegStr = elValorNeg.value;
+  const valorNeg = round2(parseBRLStringToNumber(valorNegStr));
+  const desconto = parsePercentFromSelect(elDesconto.value);
+  const entradaPercent = parsePercentFromSelect(elEntrada.value);
+  let parcelas = parseInt(elNumParcelas.value,10) || 1;
+  parcelas = clamp(parcelas,1,30);
+  let cartaoParcelas = parseInt(elCartao.value,10) || 1;
+
+  const valorVenda = round2(valorNeg * (1 - desconto));
+  const valorEntrada = round2(valorVenda * entradaPercent);
+  const saldoSemJuros = round2(valorVenda - valorEntrada);
+  const parcelaMensalSemJuros = parcelas > 0 ? round2(saldoSemJuros / parcelas) : 0;
+
+  let paymentMonthly = 0; let totalParcelado = 0;
+  if (parcelas === 1 || taxaJurosMensal === 0){
+    paymentMonthly = saldoSemJuros; totalParcelado = paymentMonthly;
+  } else {
+    const i = taxaJurosMensal; const n = parcelas; const factor = Math.pow(1+i,n);
+    paymentMonthly = saldoSemJuros * (i * factor) / (factor - 1);
+    paymentMonthly = round2(paymentMonthly);
+    totalParcelado = round2(paymentMonthly * n);
+  }
+
+  const valorTotalVenda = round2(valorEntrada + totalParcelado);
+  const totalJuros = round2(valorTotalVenda - valorVenda);
+  const cartaoParcela = cartaoParcelas > 0 ? round2(valorVenda / cartaoParcelas) : 0;
+  const hoje = new Date();
+  const primeira = addDaysAdjust(hoje,45);
+
+  formatCurrencyInputEl(elValorNeg, valorNeg);
+  outValorVenda.textContent = formatToBRLNumber(valorVenda);
+  outValorEntrada.textContent = formatToBRLNumber(valorEntrada);
+
+  const entradaPerParcel = round2(valorEntrada / Math.max(1, parcelas));
+  labelValorEntradaSmall.textContent = '(' + formatToBRLNumber(entradaPerParcel) + ' em ' + parcelas + 'x)';
+
+  outValorParcela.textContent = formatToBRLNumber(parcelaMensalSemJuros);
+  outCartaoParcela.textContent = formatToBRLNumber(cartaoParcela);
+  outSaldoSemJuros.textContent = formatToBRLNumber(saldoSemJuros);
+  outValorParcelado.textContent = formatToBRLNumber(totalParcelado);
+  outPrimeiraParcela.textContent = formatDateBR(primeira);
+  outValorTotalVenda.textContent = formatToBRLNumber(valorTotalVenda);
+  outTotalJuros.textContent = formatToBRLNumber(totalJuros);
+}
+
+function handleValorNegInput(e){
+  const raw = e.target.value;
+  let onlyNums = raw.replace(/[^\d]/g,'');
+  if (onlyNums === '') { e.target.value = ''; return; }
+  let asNumber = parseFloat(onlyNums) / 100;
+  e.target.value = brl.format(asNumber);
+  calcularTudo();
+}
+
+elValorNeg.addEventListener('input', handleValorNegInput);
+elDesconto.addEventListener('change', calcularTudo);
+elEntrada.addEventListener('change', calcularTudo);
+elNumParcelas.addEventListener('change', calcularTudo);
+elCartao.addEventListener('change', calcularTudo);
+
+elValorNeg.addEventListener('blur', ()=>{
+  const n = parseBRLStringToNumber(elValorNeg.value);
+  formatCurrencyInputEl(elValorNeg, n);
+  calcularTudo();
+});
+
+(function init(){ const parsed = parseBRLStringToNumber(elValorNeg.value); formatCurrencyInputEl(elValorNeg, parsed || 7357.89); calcularTudo(); })();
 </script>
 </body>
 </html>
