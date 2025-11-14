@@ -4,11 +4,17 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Calculadora Royal — Mobile</title>
+
+<!-- favicon (SVG) -->
+<link rel="icon" href="https://raw.githubusercontent.com/erikprosa/calculadora-royal/2d83a7735140ea56946b9eb71d47e5c151829820/favicon.svg" type="image/svg+xml">
+<link rel="shortcut icon" href="https://raw.githubusercontent.com/erikprosa/calculadora-royal/2d83a7735140ea56946b9eb71d47e5c151829820/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="https://raw.githubusercontent.com/erikprosa/calculadora-royal/2d83a7735140ea56946b9eb71d47e5c151829820/favicon.svg" as="image">
+
 <meta name="theme-color" content="#ffffff" id="meta-theme-color" />
 <style>
   /* -----------------------
-     VARIÁVEIS DE TEMA (light / dark + tokens de texto)
-     Edite aqui os --light-... e --dark-... para alterar o tema facilmente
+     VARIÁVEIS DE TEMA (light / dark + tokens de texto + sizes)
+     Edite aqui os --light-... e --dark-... para alterar o tema, inclusive tamanhos
      ----------------------- */
   :root{
     /* --- Light theme --- */
@@ -40,22 +46,27 @@
     --light-logo: url("https://raw.githubusercontent.com/erikprosa/calculadora-royal/2d83a7735140ea56946b9eb71d47e5c151829820/Logo.svg");
     --dark-logo: url("https://raw.githubusercontent.com/erikprosa/calculadora-royal/2d83a7735140ea56946b9eb71d47e5c151829820/Logo_White.svg");
 
+    /* --- Sizes (light) ---
+       Customize these to change logo/icon sizes per theme */
+    --light-logo-size: 125px;    /* size of top logo for light theme */
+    --light-icon-size: 12px;     /* size of switch icons for light theme */
+
     /* --- Dark theme --- */
     --dark-bg: #212830;
     --dark-card: #0f1720;
-    --dark-accent: #DDE8FF;
+    --dark-accent: #23395B;
     --dark-muted: #A3A8B3;
     --dark-pink: #F8DCDC;
     --dark-yellow: #FFFF66;
-    --dark-border: #222;
+    --dark-border: #dbdbdb;
 
     /* text groups (dark) */
     --dark-label-text: #A3A8B3;
-    --dark-box-text: #DDE8FF;
-    --dark-main-text: #E8F2FF;
-    --dark-final-desc: #A3A8B3;
-    --dark-credit-developer: #A3A8B3;
-    --dark-credit-handle: #DDE8FF;
+    --dark-box-text: #23395B;
+    --dark-main-text: #ffffff;
+    --dark-final-desc: #6b7280;
+    --dark-credit-developer: #6b7280;
+    --dark-credit-handle: #c6c6c6;
 
     /* switch tokens (dark) */
     --dark-icon-active: #000000;
@@ -64,6 +75,22 @@
     --dark-switch-knob: #d3d3d3;
     --dark-switch-active-track: #3a3f45;
     --dark-switch-border: rgba(255,255,255,0.08);
+
+    /* sizes (dark) */
+    --dark-logo-size: 125px;    /* size of top logo for dark theme */
+    --dark-icon-size: 12px;     /* size of switch icons for dark theme */
+
+    /* --- Section border tokens (light) --- */
+    --light-section-border-color: rgba(35, 57, 91, 0.25);
+    --light-section-border-width: 1px;
+    --light-section-border-style: solid;
+    --light-section-border-inset: 14px;
+
+    /* --- Section border tokens (dark) --- */
+    --dark-section-border-color: rgba(255, 255, 255, 0.25);
+    --dark-section-border-width: 1px;
+    --dark-section-border-style: solid;
+    --dark-section-border-inset: 14px;
 
     /* derived (active) variables default to light */
     --bg: var(--light-bg);
@@ -88,10 +115,24 @@
     --credit-developer: var(--light-credit-developer);
     --credit-handle: var(--light-credit-handle);
 
+    /* active section border variables (editable via theme mapping) */
+    --section-border-color: var(--light-section-border-color);
+    --section-border-width: var(--light-section-border-width);
+    --section-border-style: var(--light-section-border-style);
+    --section-border-inset: var(--light-section-border-inset);
+
+    /* active sizes (derived) */
+    --logo-size: var(--light-logo-size);
+    --icon-size: var(--light-icon-size);
+
     /* layout sizes */
     --field-width: 60%;
     --radius: 8px;
     --box-height: 56px;
+
+    /* switch geometry (tweak if needed) */
+    --switch-w: 54px;
+    --switch-h: 28px;
   }
 
   /* when dark theme active, remap derived variables to dark tokens */
@@ -117,6 +158,16 @@
     --final-desc: var(--dark-final-desc);
     --credit-developer: var(--dark-credit-developer);
     --credit-handle: var(--dark-credit-handle);
+
+    /* remap section border variables to dark */
+    --section-border-color: var(--dark-section-border-color);
+    --section-border-width: var(--dark-section-border-width);
+    --section-border-style: var(--dark-section-border-style);
+    --section-border-inset: var(--dark-section-border-inset);
+
+    /* remap sizes to dark */
+    --logo-size: var(--dark-logo-size);
+    --icon-size: var(--dark-icon-size);
   }
 
   /* -----------------------
@@ -151,17 +202,43 @@
 
   .topImageWrap { display:flex; justify-content:center; margin-bottom:12px; }
   .topImageLink{
-    width:121px; height:121px; border-radius:50%; overflow:hidden; display:inline-block;
-    display:flex; align-items:center; justify-content:center;
+    width: var(--logo-size);
+    height: var(--logo-size);
+    border-radius:50%;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
   }
   .topImage {
-    width:100%; height:100%; display:block; object-fit:contain; max-width:100%;
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit:contain;
+    max-width:100%;
   }
 
   h1{ font-size:18px;margin:0 0 10px; color:var(--main-text); text-align:center; font-weight:700; }
   .section-title{ text-align:center; margin-top:6px; font-weight:800; color:var(--main-text); }
 
-  section{ margin-top:10px; padding-top:8px; border-top:1px solid rgba(35,57,91,0.03); }
+  /* Pseudo-element separator with rounded ends */
+  section{
+    margin-top:10px;
+    padding-top: calc(8px + var(--section-border-width));
+    position: relative;
+  }
+
+  section::before{
+    content: "";
+    position: absolute;
+    left: var(--section-border-inset);
+    right: var(--section-border-inset);
+    top: 0;
+    height: var(--section-border-width);
+    background: var(--section-border-color);
+    border-radius: calc(var(--section-border-width) / 2);
+    pointer-events: none;
+  }
 
   .row{ display:flex; flex-direction:column; align-items:center; gap:6px; padding:8px 0; }
 
@@ -217,15 +294,15 @@
   .signature a{ color:inherit; text-decoration:none; font-weight:800; }
 
   /* -----------------------
-     THEME SWITCH (corrigido)
-     ícones DENTRO da bolinha (knob)
-     ícones reduzidos em 20% (16px)
+     THEME SWITCH
+     knob and icons use derived CSS variables (--switch-w, --switch-h, --icon-size)
      ----------------------- */
   .theme-container { display:flex; justify-content:center; margin-top:12px; margin-bottom:8px; }
 
   .switch {
-    --w:54px; --h:28px;
-    width:var(--w); height:var(--h); border-radius:999px;
+    width: var(--switch-w);
+    height: var(--switch-h);
+    border-radius:999px;
     background: var(--switch-track);
     display:inline-flex; align-items:center; padding:4px; box-sizing:border-box;
     transition: background .18s ease, border-color .12s ease; position: relative; z-index:1;
@@ -236,8 +313,8 @@
 
   /* knob: contém os ícones, centraliza via flexbox */
   .knob {
-    width: calc(var(--h) - 8px);
-    height: calc(var(--h) - 8px);
+    width: calc(var(--switch-h) - 8px);
+    height: calc(var(--switch-h) - 8px);
     background: var(--switch-knob);
     border-radius:50%;
     position: absolute;
@@ -251,14 +328,14 @@
   }
 
   .switch.active .knob {
-    transform: translateX(calc(var(--w) - var(--h)));
+    transform: translateX(calc(var(--switch-w) - var(--switch-h)));
   }
 
-  /* ícones dentro do knob (reduzidos em 20% -> 16px) */
+  /* ícones dentro do knob use --icon-size (set per theme) */
   .knob .icon-sun,
   .knob .icon-moon {
-    width:16px;
-    height:16px;
+    width: var(--icon-size);
+    height: var(--icon-size);
     position:absolute;
     display:flex;
     align-items:center;
@@ -269,14 +346,12 @@
     pointer-events:none;
   }
 
-  /* tema claro -> sol visível */
   .switch:not(.active) .knob .icon-sun {
     opacity:1;
     color: var(--icon-active);
     transform: scale(1);
   }
 
-  /* tema escuro -> lua visível */
   .switch.active .knob .icon-moon {
     opacity:1;
     color: var(--icon-active);
@@ -294,7 +369,7 @@
 
   @media (max-width:420px){
     :root{ --field-width:86%; }
-    .topImageLink { width:107px; height:107px; }
+    .topImageLink { width: calc(var(--logo-size) * 0.885); height: calc(var(--logo-size) * 0.885); }
   }
 </style>
 </head>
@@ -401,7 +476,7 @@
         </div>
 
         <div class="row">
-          <label>PRIMEIRA PARCELA <small>(Não cai 29-30-31)</small></label>
+          <label>PRIMEIRA PARCELA</label>
           <div class="inputBox readonlyBox"><div id="primeiraParcelaText" class="balance">--/--/----</div></div>
         </div>
 
@@ -420,8 +495,8 @@
       <div class="theme-container">
         <button id="themeSwitch" aria-pressed="false" class="switch" title="Alternar tema" type="button">
           <div class="knob">
-            <span class="icon-sun" aria-hidden="true" data-src="https://raw.githubusercontent.com/erikprosa/calculadora-royal/1b6d47a1d1b59521e0f5991a7ed42505b40dc01b/sol.svg"></span>
-            <span class="icon-moon" aria-hidden="true" data-src="https://raw.githubusercontent.com/erikprosa/calculadora-royal/1b6d47a1d1b59521e0f5991a7ed42505b40dc01b/lua.svg"></span>
+            <span class="icon-sun" aria-hidden="true" data-src="https://raw.githubusercontent.com/erikprosa/calculadora-royal/dab286ee2076dc17a3ed51ac8071819d518d0d82/sol_full.svg"></span>
+            <span class="icon-moon" aria-hidden="true" data-src="https://raw.githubusercontent.com/erikprosa/calculadora-royal/dab286ee2076dc17a3ed51ac8071819d518d0d82/lua_full.svg"></span>
           </div>
         </button>
       </div>
@@ -438,10 +513,10 @@
 
 <script>
 /* -----------------------
-   INJEÇÃO DOS SVGs DO SWITCH (busca as URLs que você forneceu)
+   INJEÇÃO DOS SVGs DO SWITCH (busca as URLs fornecidas)
    - Injeta inline para permitir styling via currentColor
    - Remove atributos 'fill'/'stroke' fixos e força fill=currentColor
-   - Define tamanho dos SVGs para 16px (reduzido 20%)
+   - Usa width/height baseados em --icon-size (CSS handles sizing)
    ----------------------- */
 async function injectIcon(spanEl) {
   const url = spanEl.getAttribute('data-src');
@@ -450,40 +525,36 @@ async function injectIcon(spanEl) {
     const resp = await fetch(url, {cache: "no-cache"});
     if (!resp.ok) throw new Error('fetch failed');
     const txt = await resp.text();
-    // Parse SVG
     const parser = new DOMParser();
     const doc = parser.parseFromString(txt, "image/svg+xml");
     const svg = doc.querySelector('svg');
     if (!svg) throw new Error('no svg found');
 
-    // Normalize size to 16px (20% smaller than 20px)
-    svg.setAttribute('width', '16');
-    svg.setAttribute('height', '16');
-    // If no viewBox, set a default (keeps aspect)
-    if (!svg.getAttribute('viewBox')) {
-      const w = svg.getAttribute('width') || '16';
-      const h = svg.getAttribute('height') || '16';
-      svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
-    }
-
-    // Remove any inline fill/stroke that would override currentColor
+    // remove any inline fill/stroke
     const elements = svg.querySelectorAll('[fill],[stroke]');
     elements.forEach(el=>{
       el.removeAttribute('fill');
       el.removeAttribute('stroke');
     });
 
+    // ensure viewBox exists
+    if (!svg.getAttribute('viewBox')) {
+      const w = svg.getAttribute('width') || '24';
+      const h = svg.getAttribute('height') || '24';
+      svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+    }
+
     svg.style.display = 'block';
-    // Clear span and append svg
+    // Don't set width/height here: CSS var (--icon-size) will size the container and SVG will scale (responsive).
+    svg.removeAttribute('width');
+    svg.removeAttribute('height');
+
     spanEl.innerHTML = '';
     spanEl.appendChild(svg);
   } catch (err) {
-    // Fallback minimal shape
     spanEl.innerHTML = '';
     const fallbackSvg = document.createElementNS('http://www.w3.org/2000/svg','svg');
     fallbackSvg.setAttribute('viewBox','0 0 24 24');
-    fallbackSvg.setAttribute('width','16');
-    fallbackSvg.setAttribute('height','16');
     const path = document.createElementNS('http://www.w3.org/2000/svg','path');
     path.setAttribute('d','M12 4a1 1 0 110 2 6 6 0 100 12 1 1 0 110 2 8 8 0 110-16z');
     fallbackSvg.appendChild(path);
@@ -491,7 +562,7 @@ async function injectIcon(spanEl) {
   }
 }
 
-/* Inject both icons on startup (they are inside .knob) */
+/* Inject both icons on startup (they are inside the knob) */
 document.querySelectorAll('.knob .icon-sun, .knob .icon-moon').forEach(span => {
   injectIcon(span);
 });
@@ -511,20 +582,18 @@ document.querySelectorAll('.knob .icon-sun, .knob .icon-moon').forEach(span => {
   const metaTheme = document.getElementById('meta-theme-color');
   const topLogoImg = document.getElementById('topLogo');
 
-  // helper to get URLs from CSS variables (since we stored them with url("..."))
+  // helper to get URLs from CSS variables (stored as url("..."))
   function cssVarUrl(varName) {
     const raw = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
-    // raw is like: url("https://...") -> extract inside quotes/parentheses
     const m = raw.match(/url\((?:'|")?(.*?)(?:'|")?\)/);
     return m ? m[1] : raw;
   }
 
-  // preload image (returns promise)
   function preloadImage(src){
     return new Promise((resolve)=> {
       const img = new Image();
       img.onload = () => resolve(src);
-      img.onerror = () => resolve(src); // resolve anyway to avoid blocking
+      img.onerror = () => resolve(src);
       img.src = src;
     });
   }
@@ -540,20 +609,17 @@ document.querySelectorAll('.knob .icon-sun, .knob .icon-moon').forEach(span => {
       switchBtn.setAttribute('aria-pressed','false');
     }
 
-    // atualiza meta theme color para o background atual (usa a variável --bg)
+    // atualiza meta theme color
     const bg = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || (theme === 'dark' ? '#212830' : '#ffffff');
     metaTheme.setAttribute('content', bg);
 
-    // troca o logo com preload para evitar flicker
+    // troca o logo (preload to avoid flicker)
     const lightLogoUrl = cssVarUrl('--light-logo');
     const darkLogoUrl = cssVarUrl('--dark-logo');
     const target = theme === 'dark' ? darkLogoUrl : lightLogoUrl;
-
     try {
       await preloadImage(target);
-      // set src only after load attempt (keeps things snappy; if failed still sets)
       topLogoImg.setAttribute('src', target);
-      // optionally adjust alt
       topLogoImg.setAttribute('alt', theme === 'dark' ? 'Logo Royal (versão branca)' : 'Logo Royal');
     } catch (e) {
       topLogoImg.setAttribute('src', target);
@@ -575,10 +641,14 @@ document.querySelectorAll('.knob .icon-sun, .knob .icon-moon').forEach(span => {
       applyTheme(current);
     });
   }
+
+  // Optional: observe changes to --logo-size or --icon-size (developer convenience)
+  const ro = new MutationObserver(()=>{/* no-op placeholder; css var updates apply automatically */});
+  ro.observe(document.documentElement, {attributes:true, attributeFilter:['style']});
 })();
 
 /* -----------------------
-   CÁLCULOS E LÓGICA (inalterados)
+   CÁLCULOS E LÓGICA (com ajuste: entradaPerParcel sempre em 12x)
    ----------------------- */
 const brl = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'});
 
@@ -682,8 +752,9 @@ function calcularTudo(){
   outValorVenda.textContent = formatToBRLNumber(valorVenda);
   outValorEntrada.textContent = formatToBRLNumber(valorEntrada);
 
-  const entradaPerParcel = round2(valorEntrada / Math.max(1, parcelas));
-  labelValorEntradaSmall.textContent = '(' + formatToBRLNumber(entradaPerParcel) + ' em ' + parcelas + 'x)';
+  // ajuste solicitado: sempre mostrar o cálculo da entrada "em 12x"
+  const entradaPerParcel12 = round2(valorEntrada / 12);
+  labelValorEntradaSmall.textContent = '(' + formatToBRLNumber(entradaPerParcel12) + ' em 12x)';
 
   outValorParcela.textContent = formatToBRLNumber(parcelaMensalSemJuros);
   outCartaoParcela.textContent = formatToBRLNumber(cartaoParcela);
