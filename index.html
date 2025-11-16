@@ -46,10 +46,9 @@
     --light-logo: url("https://raw.githubusercontent.com/erikprosa/calculadora-royal/2d83a7735140ea56946b9eb71d47e5c151829820/Logo.svg");
     --dark-logo: url("https://raw.githubusercontent.com/erikprosa/calculadora-royal/2d83a7735140ea56946b9eb71d47e5c151829820/Logo_White.svg");
 
-    /* --- Sizes (light) ---
-       Customize these to change logo/icon sizes per theme */
-    --light-logo-size: 125px;    /* size of top logo for light theme */
-    --light-icon-size: 12px;     /* size of switch icons for light theme */
+    /* --- Sizes (light) --- */
+    --light-logo-size: 125px;
+    --light-icon-size: 12px;
 
     /* --- Dark theme --- */
     --dark-bg: #212830;
@@ -77,8 +76,8 @@
     --dark-switch-border: rgba(255,255,255,0.08);
 
     /* sizes (dark) */
-    --dark-logo-size: 125px;    /* size of top logo for dark theme */
-    --dark-icon-size: 12px;     /* size of switch icons for dark theme */
+    --dark-logo-size: 125px;
+    --dark-icon-size: 12px;
 
     /* --- Section border tokens (light) --- */
     --light-section-border-color: rgba(35, 57, 91, 0.25);
@@ -115,7 +114,7 @@
     --credit-developer: var(--light-credit-developer);
     --credit-handle: var(--light-credit-handle);
 
-    /* active section border variables (editable via theme mapping) */
+    /* active section border variables */
     --section-border-color: var(--light-section-border-color);
     --section-border-width: var(--light-section-border-width);
     --section-border-style: var(--light-section-border-style);
@@ -130,7 +129,7 @@
     --radius: 8px;
     --box-height: 56px;
 
-    /* switch geometry (tweak if needed) */
+    /* switch geometry */
     --switch-w: 54px;
     --switch-h: 28px;
   }
@@ -159,13 +158,13 @@
     --credit-developer: var(--dark-credit-developer);
     --credit-handle: var(--dark-credit-handle);
 
-    /* remap section border variables to dark */
+    /* section border -> dark */
     --section-border-color: var(--dark-section-border-color);
     --section-border-width: var(--dark-section-border-width);
     --section-border-style: var(--dark-section-border-style);
     --section-border-inset: var(--dark-section-border-inset);
 
-    /* remap sizes to dark */
+    /* sizes -> dark */
     --logo-size: var(--dark-logo-size);
     --icon-size: var(--dark-icon-size);
   }
@@ -390,7 +389,8 @@
         <div class="row" id="dados-title">
           <label for="valorNeg">VALOR DE NEGOCIAÇÃO</label>
           <div class="inputBox editableBox" title="Valor de negociação">
-            <input id="valorNeg" class="textInput" inputmode="decimal" type="text" value="R$ 7.357,89" aria-label="Valor de negociação">
+            <!-- inicializado via JS para R$ 0,00 -->
+            <input id="valorNeg" class="textInput" inputmode="decimal" type="text" value="R$ 0,00" aria-label="Valor de negociação">
           </div>
         </div>
 
@@ -491,12 +491,12 @@
         </div>
       </section>
 
-      <!-- THEME SWITCH: ícones injetados dentro do knob -->
+      <!-- THEME SWITCH: ícones injetados dentro o knob -->
       <div class="theme-container">
         <button id="themeSwitch" aria-pressed="false" class="switch" title="Alternar tema" type="button">
           <div class="knob">
-            <span class="icon-sun" aria-hidden="true" data-src="https://raw.githubusercontent.com/erikprosa/calculadora-royal/dab286ee2076dc17a3ed51ac8071819d518d0d82/sol_full.svg"></span>
-            <span class="icon-moon" aria-hidden="true" data-src="https://raw.githubusercontent.com/erikprosa/calculadora-royal/dab286ee2076dc17a3ed51ac8071819d518d0d82/lua_full.svg"></span>
+            <span class="icon-sun" aria-hidden="true" data-src="https://raw.githubusercontent.com/erikprosa/calculadora-royal/1b6d47a1d1b59521e0f5991a7ed42505b40dc01b/sol.svg"></span>
+            <span class="icon-moon" aria-hidden="true" data-src="https://raw.githubusercontent.com/erikprosa/calculadora-royal/1b6d47a1d1b59521e0f5991a7ed42505b40dc01b/lua.svg"></span>
           </div>
         </button>
       </div>
@@ -513,10 +513,7 @@
 
 <script>
 /* -----------------------
-   INJEÇÃO DOS SVGs DO SWITCH (busca as URLs fornecidas)
-   - Injeta inline para permitir styling via currentColor
-   - Remove atributos 'fill'/'stroke' fixos e força fill=currentColor
-   - Usa width/height baseados em --icon-size (CSS handles sizing)
+   INJEÇÃO DOS SVGs DO SWITCH
    ----------------------- */
 async function injectIcon(spanEl) {
   const url = spanEl.getAttribute('data-src');
@@ -530,14 +527,13 @@ async function injectIcon(spanEl) {
     const svg = doc.querySelector('svg');
     if (!svg) throw new Error('no svg found');
 
-    // remove any inline fill/stroke
+    // remove any inline fill/stroke so currentColor works
     const elements = svg.querySelectorAll('[fill],[stroke]');
     elements.forEach(el=>{
       el.removeAttribute('fill');
       el.removeAttribute('stroke');
     });
 
-    // ensure viewBox exists
     if (!svg.getAttribute('viewBox')) {
       const w = svg.getAttribute('width') || '24';
       const h = svg.getAttribute('height') || '24';
@@ -545,7 +541,6 @@ async function injectIcon(spanEl) {
     }
 
     svg.style.display = 'block';
-    // Don't set width/height here: CSS var (--icon-size) will size the container and SVG will scale (responsive).
     svg.removeAttribute('width');
     svg.removeAttribute('height');
 
@@ -562,19 +557,16 @@ async function injectIcon(spanEl) {
   }
 }
 
-/* Inject both icons on startup (they are inside the knob) */
+/* Inject icons inside knob */
 document.querySelectorAll('.knob .icon-sun, .knob .icon-moon').forEach(span => {
   injectIcon(span);
 });
 
 /* -----------------------
-   THEME HANDLER
-   - persiste em localStorage
-   - aplica .theme-dark que remapeia variáveis
-   - troca o logo (top image) de acordo com o tema
+   THEME HANDLER (troca logo e persiste)
    ----------------------- */
 (function themeInit(){
-  const stored = localStorage.getItem('royal_theme'); // 'dark'|'light'|null
+  const stored = localStorage.getItem('royal_theme');
   const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
   let current = stored || (prefersDark ? 'dark' : 'light');
 
@@ -582,7 +574,6 @@ document.querySelectorAll('.knob .icon-sun, .knob .icon-moon').forEach(span => {
   const metaTheme = document.getElementById('meta-theme-color');
   const topLogoImg = document.getElementById('topLogo');
 
-  // helper to get URLs from CSS variables (stored as url("..."))
   function cssVarUrl(varName) {
     const raw = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
     const m = raw.match(/url\((?:'|")?(.*?)(?:'|")?\)/);
@@ -609,11 +600,9 @@ document.querySelectorAll('.knob .icon-sun, .knob .icon-moon').forEach(span => {
       switchBtn.setAttribute('aria-pressed','false');
     }
 
-    // atualiza meta theme color
     const bg = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || (theme === 'dark' ? '#212830' : '#ffffff');
     metaTheme.setAttribute('content', bg);
 
-    // troca o logo (preload to avoid flicker)
     const lightLogoUrl = cssVarUrl('--light-logo');
     const darkLogoUrl = cssVarUrl('--dark-logo');
     const target = theme === 'dark' ? darkLogoUrl : lightLogoUrl;
@@ -641,14 +630,10 @@ document.querySelectorAll('.knob .icon-sun, .knob .icon-moon').forEach(span => {
       applyTheme(current);
     });
   }
-
-  // Optional: observe changes to --logo-size or --icon-size (developer convenience)
-  const ro = new MutationObserver(()=>{/* no-op placeholder; css var updates apply automatically */});
-  ro.observe(document.documentElement, {attributes:true, attributeFilter:['style']});
 })();
 
 /* -----------------------
-   CÁLCULOS E LÓGICA (com ajuste: entradaPerParcel sempre em 12x)
+   CÁLCULOS E LÓGICA (fórmula do Excel aplicada)
    ----------------------- */
 const brl = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'});
 
@@ -694,29 +679,36 @@ const outValorTotalVenda = document.getElementById('valorTotalVendaText');
 const outTotalJuros = document.getElementById('totalJurosText');
 
 (function populateSelects(){
+  // desconto 0..10
   for (let i=0;i<=10;i++){
     const opt = document.createElement('option'); opt.value = String(i) + '%'; opt.textContent = String(i) + '%';
     elDesconto.appendChild(opt);
   }
+  // entrada 5..10
   for (let i=5;i<=10;i++){
     const opt = document.createElement('option'); opt.value = String(i) + '%'; opt.textContent = String(i) + '%';
     elEntrada.appendChild(opt);
   }
+  // parcelas 1..30
   for (let i=1;i<=30;i++){
     const opt = document.createElement('option'); opt.value = String(i); opt.textContent = String(i) + 'x';
     elNumParcelas.appendChild(opt);
   }
+  // cartao 1..18
   for (let i=1;i<=18;i++){
     const opt = document.createElement('option'); opt.value = String(i); opt.textContent = String(i) + 'x';
     elCartao.appendChild(opt);
   }
-  elDesconto.value = '5%';
+
+  // initial defaults requested: valorNeg = 0, desconto = 0
+  elDesconto.value = '0%';
   elEntrada.value = '5%';
   elNumParcelas.value = '30';
   elCartao.value = '18';
 })();
 
-const taxaJurosMensal = 0.015; // 1.5% a.m.
+// taxaJurosMensal is kept but not used in the Excel formula approach for parcelas:
+const taxaJurosMensal = 0.015; // (kept for reference)
 
 function calcularTudo(){
   const valorNegStr = elValorNeg.value;
@@ -727,36 +719,61 @@ function calcularTudo(){
   parcelas = clamp(parcelas,1,30);
   let cartaoParcelas = parseInt(elCartao.value,10) || 1;
 
+  // Valor de venda após desconto
   const valorVenda = round2(valorNeg * (1 - desconto));
+
+  // Valor da entrada
   const valorEntrada = round2(valorVenda * entradaPercent);
+
+  // Saldo para parcelar (sem considerar "juros" convencionais)
   const saldoSemJuros = round2(valorVenda - valorEntrada);
+
+  // Parcela sem juros (saldo / parcelas) — mantivemos para referência
   const parcelaMensalSemJuros = parcelas > 0 ? round2(saldoSemJuros / parcelas) : 0;
 
-  let paymentMonthly = 0; let totalParcelado = 0;
-  if (parcelas === 1 || taxaJurosMensal === 0){
-    paymentMonthly = saldoSemJuros; totalParcelado = paymentMonthly;
+  /* 
+     Fórmula Excel fornecida pelo usuário:
+     =(C16*((C8/100)+1)/C8)
+     Interpretação:
+       parcela = saldoSemJuros * ( (parcelas/100) + 1 ) / parcelas
+     Isso equivale a: parcela = (saldo / parcelas) * (1 + parcelas/100)
+     Implementado abaixo exatamente como pedido.
+  */
+  let paymentMonthly = 0;
+  let totalParcelado = 0;
+  if (parcelas === 1) {
+    paymentMonthly = saldoSemJuros;
+    totalParcelado = paymentMonthly;
   } else {
-    const i = taxaJurosMensal; const n = parcelas; const factor = Math.pow(1+i,n);
-    paymentMonthly = saldoSemJuros * (i * factor) / (factor - 1);
-    paymentMonthly = round2(paymentMonthly);
-    totalParcelado = round2(paymentMonthly * n);
+    paymentMonthly = round2( saldoSemJuros * ( (parcelas / 100) + 1 ) / parcelas );
+    totalParcelado = round2(paymentMonthly * parcelas);
   }
 
+  // Valor total da venda = entrada + total parcelado
   const valorTotalVenda = round2(valorEntrada + totalParcelado);
+
+  // Montante de juros (diferença entre valor total e valorVenda)
   const totalJuros = round2(valorTotalVenda - valorVenda);
+
+  // Parcela no cartão (sem juros)
   const cartaoParcela = cartaoParcelas > 0 ? round2(valorVenda / cartaoParcelas) : 0;
+
+  // Primeira parcela (ajuste de data)
   const hoje = new Date();
   const primeira = addDaysAdjust(hoje,45);
 
+  // Outputs
   formatCurrencyInputEl(elValorNeg, valorNeg);
   outValorVenda.textContent = formatToBRLNumber(valorVenda);
   outValorEntrada.textContent = formatToBRLNumber(valorEntrada);
 
-  // ajuste solicitado: sempre mostrar o cálculo da entrada "em 12x"
+  // entrada mostrada "em 12x" conforme seu pedido anterior
   const entradaPerParcel12 = round2(valorEntrada / 12);
   labelValorEntradaSmall.textContent = '(' + formatToBRLNumber(entradaPerParcel12) + ' em 12x)';
 
-  outValorParcela.textContent = formatToBRLNumber(parcelaMensalSemJuros);
+  // Agora o valor da parcela mensal segue a fórmula Excel dada
+  outValorParcela.textContent = formatToBRLNumber(paymentMonthly);
+
   outCartaoParcela.textContent = formatToBRLNumber(cartaoParcela);
   outSaldoSemJuros.textContent = formatToBRLNumber(saldoSemJuros);
   outValorParcelado.textContent = formatToBRLNumber(totalParcelado);
@@ -765,10 +782,11 @@ function calcularTudo(){
   outTotalJuros.textContent = formatToBRLNumber(totalJuros);
 }
 
+/* Input handlers */
 function handleValorNegInput(e){
   const raw = e.target.value;
   let onlyNums = raw.replace(/[^\d]/g,'');
-  if (onlyNums === '') { e.target.value = ''; return; }
+  if (onlyNums === '') { e.target.value = 'R$ 0,00'; calcularTudo(); return; }
   let asNumber = parseFloat(onlyNums) / 100;
   e.target.value = brl.format(asNumber);
   calcularTudo();
@@ -786,7 +804,13 @@ elValorNeg.addEventListener('blur', ()=>{
   calcularTudo();
 });
 
-(function init(){ const parsed = parseBRLStringToNumber(elValorNeg.value); formatCurrencyInputEl(elValorNeg, parsed || 7357.89); calcularTudo(); })();
+/* init: set initial valorNeg = 0 and desconto = 0 as requested */
+(function init(){ 
+  // ensure displayed initial value is R$ 0,00
+  formatCurrencyInputEl(elValorNeg, 0);
+  // selects already populated and defaults set in populateSelects
+  calcularTudo(); 
+})();
 </script>
 </body>
 </html>
