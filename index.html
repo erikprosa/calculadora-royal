@@ -633,7 +633,7 @@ document.querySelectorAll('.knob .icon-sun, .knob .icon-moon').forEach(span => {
 })();
 
 /* -----------------------
-   CÁLCULOS E LÓGICA (fórmula do Excel aplicada)
+   CÁLCULOS E LÓGICA (ajuste para calcular total primeiro conforme sua fórmula)
    ----------------------- */
 const brl = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'});
 
@@ -660,6 +660,26 @@ function addDaysAdjust(d0, days){
   return d;
 }
 function formatDateBR(d){ const dd = String(d.getDate()).padStart(2,'0'); const mm = String(d.getMonth()+1).padStart(2,'0'); const yyyy = d.getFullYear(); return dd + '/' + mm + '/' + yyyy; }
+
+/* === ARREDONDAMENTO COMERCIAL (aplicado APENAS na parcela mensal) ===
+   Regra: analisar a 3ª casa decimal:
+     - se 0..5 => arredonda para baixo (trunca na 2ª casa)
+     - se 6..9 => arredonda para cima (ceiling na 2ª casa)
+   Observação: aplicada apenas a valores positivos (cenário de parcelas).
+*/
+function roundCommercial2(n){
+  if (!isFinite(n)) return 0;
+  // pegamos a parte inteira dos milésimos (3 casas) de forma estável
+  const scaled = Math.floor(n * 1000 + 1e-9); // ex: 287.755 -> 287755
+  const third = scaled % 10; // dígito da 3ª casa decimal
+  if (third <= 5) {
+    // arredonda para baixo (truncar para 2 casas)
+    return Math.floor(n * 100 + 1e-9) / 100;
+  } else {
+    // arredonda para cima
+    return Math.ceil(n * 100 - 1e-9) / 100;
+  }
+}
 
 const elValorNeg = document.getElementById('valorNeg');
 const elDesconto = document.getElementById('desconto');
@@ -728,16 +748,13 @@ function calcularTudo(){
   // Saldo para parcelar (sem considerar "juros" convencionais)
   const saldoSemJuros = round2(valorVenda - valorEntrada);
 
-  // Parcela sem juros (saldo / parcelas) — mantivemos para referência
-  const parcelaMensalSemJuros = parcelas > 0 ? round2(saldoSemJuros / parcelas) : 0;
-
-  /* 
-     Fórmula Excel fornecida pelo usuário:
-     =(C16*((C8/100)+1)/C8)
-     Interpretação:
-       parcela = saldoSemJuros * ( (parcelas/100) + 1 ) / parcelas
-     Isso equivale a: parcela = (saldo / parcelas) * (1 + parcelas/100)
-     Implementado abaixo exatamente como pedido.
+  /*
+     Correção aplicada:
+     - calcular primeiro o TOTAL parcelado aplicando o fator (1 + parcelas/100)
+     - arredondar o TOTAL (uma vez)
+     - então derivar a parcela mensal dividindo o total pelo número de parcelas
+     - A exceção: a parcela mensal **usa** o arredondamento comercial (roundCommercial2)
+       conforme solicitado (3ª casa = 0..5 -> trunca; 6..9 -> sobe).
   */
   let paymentMonthly = 0;
   let totalParcelado = 0;
@@ -745,8 +762,10 @@ function calcularTudo(){
     paymentMonthly = saldoSemJuros;
     totalParcelado = paymentMonthly;
   } else {
-    paymentMonthly = round2( saldoSemJuros * ( (parcelas / 100) + 1 ) / parcelas );
-    totalParcelado = round2(paymentMonthly * parcelas);
+    const fator = 1 + (parcelas / 100); // ex: 1 + 30/100 = 1.3 para 30x
+    totalParcelado = round2(saldoSemJuros * fator); // <-- total arredondado APÓS multiplicar
+    // Aqui aplicamos o arredondamento comercial apenas na parcela mensal:
+    paymentMonthly = roundCommercial2(totalParcelado / parcelas);
   }
 
   // Valor total da venda = entrada + total parcelado
@@ -771,7 +790,7 @@ function calcularTudo(){
   const entradaPerParcel12 = round2(valorEntrada / 12);
   labelValorEntradaSmall.textContent = '(' + formatToBRLNumber(entradaPerParcel12) + ' em 12x)';
 
-  // Agora o valor da parcela mensal segue a fórmula Excel dada
+  // Agora o valor da parcela mensal segue o cálculo atualizado (total primeiro + roundCommercial2)
   outValorParcela.textContent = formatToBRLNumber(paymentMonthly);
 
   outCartaoParcela.textContent = formatToBRLNumber(cartaoParcela);
