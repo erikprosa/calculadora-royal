@@ -132,6 +132,10 @@
     /* switch geometry */
     --switch-w: 54px;
     --switch-h: 28px;
+
+    /* --- FATOR PRESENTES (EXPLÍCITO: editar aqui para ajustar o percentual) --- */
+    /* mantenha o valor em decimal: 0.30 = 30% */
+    --presentes-factor: 0.30;
   }
 
   /* when dark theme active, remap derived variables to dark tokens */
@@ -249,7 +253,7 @@
     font-weight:700;
     display:flex;
     align-items:baseline;
-    gap:8px;
+    gap:2px;
   }
   label small{ font-size:11px;color:var(--label-text);font-weight:400;margin-left:6px; }
   label small.dynamic{ font-size:12px;color:var(--label-text);font-weight:600;opacity:0.85;margin-left:6px; }
@@ -491,6 +495,18 @@
         </div>
       </section>
 
+      <!-- NOVO GRUPO: PRESENTES (ADICIONADO) -->
+      <section aria-labelledby="presentes-title">
+        <div class="section-title">PRESENTES</div>
+
+        <div class="row" style="margin-top:10px">
+          <label for="valorPresentes">VALOR PARA PRESENTES <small class="dynamic" id="presentesFactorSmall">(30%)</small></label>
+          <div class="inputBox readonlyBox" title="Valor destinado a presentes">
+            <div id="presentesValorText" class="balance">R$ 0,00</div>
+          </div>
+        </div>
+      </section>
+
       <!-- THEME SWITCH: ícones injetados dentro o knob -->
       <div class="theme-container">
         <button id="themeSwitch" aria-pressed="false" class="switch" title="Alternar tema" type="button">
@@ -698,6 +714,10 @@ const outPrimeiraParcela = document.getElementById('primeiraParcelaText');
 const outValorTotalVenda = document.getElementById('valorTotalVendaText');
 const outTotalJuros = document.getElementById('totalJurosText');
 
+/* NOVO OUTPUT: PRESENTES */
+const outPresentes = document.getElementById('presentesValorText');
+const outPresentesFactorLabel = document.getElementById('presentesFactorSmall');
+
 (function populateSelects(){
   // desconto 0..10
   for (let i=0;i<=10;i++){
@@ -742,6 +762,27 @@ function calcularTudo(){
   // Valor de venda após desconto
   const valorVenda = round2(valorNeg * (1 - desconto));
 
+  // --- CÁLCULO DO VALOR PARA PRESENTES (NOVO) ---
+  // lê o fator diretamente da variável CSS --presentes-factor (valores em decimal: 0.30 = 30%)
+  const rawFactor = getComputedStyle(document.documentElement).getPropertyValue('--presentes-factor') || '0.30';
+  // tenta interpretar como número, aceita '0.30' ou '30%' ou '0.3'
+  let presentesFactor = 0.30;
+  try {
+    const trimmed = String(rawFactor).trim();
+    if (trimmed.endsWith('%')) {
+      presentesFactor = parseFloat(trimmed.replace('%',''))/100;
+    } else {
+      presentesFactor = parseFloat(trimmed);
+      if (isNaN(presentesFactor)) presentesFactor = 0.30;
+      // se valor > 1 e provavelmente foi colocado como '30', converte para 0.30
+      if (presentesFactor > 1) presentsFactor = presentesFactor / 100;
+    }
+  } catch (e) {
+    presentesFactor = 0.30;
+  }
+  // fallback seguro
+  if (!isFinite(presentesFactor) || isNaN(presentesFactor)) presentesFactor = 0.30;
+
   // Valor da entrada
   const valorEntrada = round2(valorVenda * entradaPercent);
 
@@ -781,6 +822,9 @@ function calcularTudo(){
   const hoje = new Date();
   const primeira = addDaysAdjust(hoje,45);
 
+  // --- CÁLCULO: Valor para presentes (30% por padrão via --presentes-factor) ---
+  const valorPresentes = round2(valorVenda * presentesFactor);
+
   // Outputs
   formatCurrencyInputEl(elValorNeg, valorNeg);
   outValorVenda.textContent = formatToBRLNumber(valorVenda);
@@ -799,6 +843,11 @@ function calcularTudo(){
   outPrimeiraParcela.textContent = formatDateBR(primeira);
   outValorTotalVenda.textContent = formatToBRLNumber(valorTotalVenda);
   outTotalJuros.textContent = formatToBRLNumber(totalJuros);
+
+  // Output do novo campo "Valor para presentes"
+  outPresentes.textContent = formatToBRLNumber(valorPresentes);
+  // atualiza rótulo dinâmico com percentual (exibe '30%')
+  outPresentesFactorLabel.textContent = '(' + (Math.round(presentesFactor * 100)) + '%)';
 }
 
 /* Input handlers */
