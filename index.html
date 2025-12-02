@@ -820,7 +820,7 @@ function calcularTudo(){
 
   // Primeira parcela (ajuste de data)
   const hoje = new Date();
-  const primeira = addDaysAdjust(hoje,45);
+  const primeira = addDaysAdjust(hoje,40);
 
   // --- CÁLCULO: Valor para presentes (30% por padrão via --presentes-factor) ---
   const valorPresentes = round2(valorVenda * presentesFactor);
@@ -882,5 +882,6 @@ elValorNeg.addEventListener('blur', ()=>{
 </script>
 </body>
 </html>
+
 
 
