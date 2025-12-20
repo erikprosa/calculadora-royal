@@ -11,136 +11,396 @@
 
 <meta name="theme-color" content="#ffffff" id="meta-theme-color" />
 <style>
-  /* -----------------------
-     VARIÁVEIS DE TEMA
-     ----------------------- */
-  :root{
-    --light-bg: #ffffff;
-    --light-card: #ffffff;
-    --light-accent: #23395B;
-    --light-muted: #6b7280;
-    --light-pink: #F8DCDC;
-    --light-yellow: #FFFF66;
-    --light-border: #111;
-    --light-label-text: #6b7280;
-    --light-box-text: #23395B;
-    --light-main-text: #12223a;
-    --light-final-desc: #6b7280;
-    --light-credit-developer: #6b7280;
-    --light-credit-handle: #23395B;
-    --light-icon-active: #000000;
-    --light-icon-inactive: #8a8a8a;
-    --light-switch-track: #E6E6EA;
-    --light-switch-knob: #FFFFFF;
-    --light-switch-active-track: #D1D5DB;
-    --light-switch-border: rgba(0,0,0,0.12);
-    --light-logo: url("https://raw.githubusercontent.com/erikprosa/calculadora-royal/2d83a7735140ea56946b9eb71d47e5c151829820/Logo.svg");
-    --dark-logo: url("https://raw.githubusercontent.com/erikprosa/calculadora-royal/2d83a7735140ea56946b9eb71d47e5c151829820/Logo_White.svg");
-    --light-logo-size: 125px;
-    --light-icon-size: 12px;
+  /* =========================================================
+     1. IMAGENS E ÍCONES
+     ========================================================= */
+  :root {
+    --src-logo-light: url("https://raw.githubusercontent.com/erikprosa/calculadora-royal/2d83a7735140ea56946b9eb71d47e5c151829820/Logo.svg");
+    --src-logo-dark:  url("https://raw.githubusercontent.com/erikprosa/calculadora-royal/2d83a7735140ea56946b9eb71d47e5c151829820/Logo_White.svg");
+    --src-icon-sun: "https://raw.githubusercontent.com/erikprosa/calculadora-royal/c5582556e5e0dee0f2164f75f2dc54668195e1df/sol_full.svg";
+    --src-icon-moon: "https://raw.githubusercontent.com/erikprosa/calculadora-royal/c5582556e5e0dee0f2164f75f2dc54668195e1df/lua_full.svg";
+  }
 
-    --dark-bg: #212830;
-    --dark-card: #0f1720;
-    --dark-accent: #23395B;
-    --dark-muted: #A3A8B3;
-    --dark-pink: #F8DCDC;
-    --dark-yellow: #FFFF66;
-    --dark-border: #dbdbdb;
-    --dark-label-text: #A3A8B3;
-    --dark-box-text: #23395B;
-    --dark-main-text: #ffffff;
-    --dark-final-desc: #6b7280;
-    --dark-credit-developer: #6b7280;
-    --dark-credit-handle: #c6c6c6;
-    --dark-icon-active: #000000;
-    --dark-icon-inactive: #8a8a8a;
-    --dark-switch-track: #2b3035;
-    --dark-switch-knob: #d3d3d3;
-    --dark-switch-active-track: #3a3f45;
-    --dark-switch-border: rgba(255,255,255,0.08);
-    --dark-logo-size: 125px;
-    --dark-icon-size: 12px;
+  /* =========================================================
+     2. CONFIGURAÇÕES GERAIS E GLOBAIS
+     ========================================================= */
+  :root {
+    /* Fontes Base */
+    --font-family-base: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+    
+    /* Configuração Geral de Inputs (Defaults) */
+    --global-input-size: 16px;   
+    --global-input-weight: 800;
 
-    --light-section-border-color: rgba(35, 57, 91, 0.25);
-    --light-section-border-width: 1px;
-    --light-section-border-style: solid;
-    --light-section-border-inset: 14px;
-    --dark-section-border-color: rgba(255, 255, 255, 0.25);
-    --dark-section-border-width: 1px;
-    --dark-section-border-style: solid;
-    --dark-section-border-inset: 14px;
+    /* Tamanhos de Texto Gerais */
+    --fs-h1: 18px;              /* Título Principal */
+    --fs-section-title: 16px;   /* Títulos das Seções */
+    --fs-label: 13px;           /* Labels dos campos */
+    --fs-label-small: 11px;     /* Texto pequeno ao lado do label */
+    --fs-note: 12px;            /* Notas de rodapé */
+    --fs-credit: 13px;          /* Assinatura do dev */
 
-    --bg: var(--light-bg);
-    --card: var(--light-card);
-    --accent: var(--light-accent);
-    --muted: var(--light-muted);
-    --pink: var(--light-pink);
-    --yellow: var(--light-yellow);
-    --border: var(--light-border);
-    --icon-active: var(--light-icon-active);
-    --icon-inactive: var(--light-icon-inactive);
-    --switch-track: var(--light-switch-track);
-    --switch-knob: var(--light-switch-knob);
-    --switch-active-track: var(--light-switch-active-track);
-    --switch-border: var(--light-switch-border);
-    --label-text: var(--light-label-text);
-    --box-text: var(--light-box-text);
-    --main-text: var(--light-main-text);
-    --final-desc: var(--light-final-desc);
-    --credit-developer: var(--light-credit-developer);
-    --credit-handle: var(--light-credit-handle);
-    --section-border-color: var(--light-section-border-color);
-    --section-border-width: var(--light-section-border-width);
-    --section-border-style: var(--light-section-border-style);
-    --section-border-inset: var(--light-section-border-inset);
-    --logo-size: var(--light-logo-size);
-    --icon-size: var(--light-icon-size);
-
-    --field-width: 60%;
-    --radius: 8px;
+    /* Layout Global */
+    --radius-card: 14px;
+    --radius-box: 8px;
     --box-height: 56px;
-    --switch-w: 54px;
-    --switch-h: 28px;
-    --presentes-factor: 0.30;
+    --field-width: 60%;
+    --gap-rows: 6px;
+
+    /* Cores Globais Base (Tema Light) */
+    --bg-page: #ffffff;
+    --bg-card: #ffffff;
+    --text-main: #12223a;       
+    --text-label: #6b7280;      
+    --text-muted: #6b7280;      
+    --border-global: #111;      
+    --accent-color: #23395B;
+    --line-color: rgba(35, 57, 91, 0.25);
+    
+    /* Switch de Tema (Light) */
+    --switch-track: #E6E6EA;
+    --switch-knob: #FFFFFF;
+    --switch-active-track: #D1D5DB;
+    --switch-border: rgba(0,0,0,0.12);
+    --icon-active: #000000;
+    --icon-inactive: #8a8a8a;
+    
+    /* Linhas */
+    --line-thickness: 1px;
+    --line-margin-x: 14px;
   }
 
+  /* Sobrescrita Global (Tema Dark) */
   .theme-dark {
-    --bg: var(--dark-bg);
-    --card: var(--dark-card);
-    --accent: var(--dark-accent);
-    --muted: var(--dark-muted);
-    --pink: var(--dark-pink);
-    --yellow: var(--dark-yellow);
-    --border: var(--dark-border);
-    --icon-active: var(--dark-icon-active);
-    --icon-inactive: var(--dark-icon-inactive);
-    --switch-track: var(--dark-switch-track);
-    --switch-knob: var(--dark-switch-knob);
-    --switch-active-track: var(--dark-switch-active-track);
-    --switch-border: var(--dark-switch-border);
-    --label-text: var(--dark-label-text);
-    --box-text: var(--dark-box-text);
-    --main-text: var(--dark-main-text);
-    --final-desc: var(--dark-final-desc);
-    --credit-developer: var(--dark-credit-developer);
-    --credit-handle: var(--dark-credit-handle);
-    --section-border-color: var(--dark-section-border-color);
-    --section-border-width: var(--dark-section-border-width);
-    --section-border-style: var(--dark-section-border-style);
-    --section-border-inset: var(--dark-section-border-inset);
-    --logo-size: var(--dark-logo-size);
-    --icon-size: var(--dark-icon-size);
+    --bg-page: #212830;
+    --bg-card: #0f1720;
+    --text-main: #ffffff;
+    --text-label: #A3A8B3;
+    --text-muted: #A3A8B3;
+    --border-global: #dbdbdb;
+    --accent-color: #23395B;
+    --line-color: rgba(255, 255, 255, 0.25);
+
+    /* Switch */
+    --switch-track: #2b3035;
+    --switch-knob: #d3d3d3;
+    --switch-active-track: #3a3f45;
+    --switch-border: rgba(255,255,255,0.08);
   }
+
+  /* =========================================================
+     3. GRUPOS DE COMPONENTES (ORGANIZAÇÃO POR ITEM)
+     ========================================================= */
+
+  /* --- [GRUPO] DOCUMENTAÇÃO --- */
+  :root {
+    --fs-doc: 13px;
+    --fw-doc: 500;
+    --text-doc: #6b7280;
+  }
+  .theme-dark {
+    --text-doc: #A3A8B3;
+  }
+
+  /* --- [GRUPO] VALOR DE NEGOCIAÇÃO --- */
+  :root {
+    --box-neg-bg: #F8DCDC;
+    --box-neg-text: #23395B;
+    --box-neg-border: #111;
+    /* Tipografia Específica */
+    --box-neg-fs: 16px;      /* Tamanho */
+    --box-neg-fw: 800;       /* Negrito */
+    --box-neg-style: normal; /* Itálico (normal/italic) */
+    --box-neg-deco: none;    /* Sublinhado (none/underline) */
+  }
+  .theme-dark {
+    --box-neg-bg: #F8DCDC;
+    --box-neg-text: #23395B;
+    --box-neg-border: #dbdbdb;
+  }
+
+  /* --- [GRUPO] DESCONTO (Select) --- */
+  :root {
+    --box-desc-bg: #F8DCDC;
+    --box-desc-text: #23395B;
+    --box-desc-border: #111;
+    /* Tipografia Específica */
+    --box-desc-fs: 16px;
+    --box-desc-fw: 800;
+    --box-desc-style: normal;
+    --box-desc-deco: none;
+  }
+  .theme-dark {
+    --box-desc-bg: #F8DCDC;
+    --box-desc-text: #23395B;
+    --box-desc-border: #dbdbdb;
+  }
+
+  /* --- [GRUPO] DESCONTO (Outros - Input) --- */
+  :root {
+    --box-desc-out-bg: #F8DCDC;
+    --box-desc-out-text: #23395B;
+    --box-desc-out-border: #111;
+    /* Tipografia Específica */
+    --box-desc-out-fs: 16px;
+    --box-desc-out-fw: 800;
+    --box-desc-out-style: normal;
+    --box-desc-out-deco: none;
+  }
+  .theme-dark {
+    --box-desc-out-bg: #F8DCDC;
+    --box-desc-out-text: #23395B;
+    --box-desc-out-border: #dbdbdb;
+  }
+
+  /* --- [GRUPO] VALOR DE VENDA (Leitura) --- */
+  :root {
+    --box-venda-bg: #f6f6f6;
+    --box-venda-text: #23395B;
+    --box-venda-border: #111;
+    /* Tipografia Específica */
+    --box-venda-fs: 16px;
+    --box-venda-fw: 800;
+    --box-venda-style: normal;
+    --box-venda-deco: none;
+  }
+  .theme-dark {
+    --box-venda-bg: #f6f6f6;
+    --box-venda-text: #23395B;
+    --box-venda-border: #dbdbdb;
+  }
+
+  /* --- [GRUPO] ENTRADA (Select) --- */
+  :root {
+    --box-ent-bg: #F8DCDC;
+    --box-ent-text: #23395B;
+    --box-ent-border: #111;
+    /* Tipografia Específica */
+    --box-ent-fs: 16px;
+    --box-ent-fw: 800;
+    --box-ent-style: normal;
+    --box-ent-deco: none;
+  }
+  .theme-dark {
+    --box-ent-bg: #F8DCDC;
+    --box-ent-text: #23395B;
+    --box-ent-border: #dbdbdb;
+  }
+
+  /* --- [GRUPO] ENTRADA (Outros - Input) --- */
+  :root {
+    --box-ent-out-bg: #F8DCDC;
+    --box-ent-out-text: #23395B;
+    --box-ent-out-border: #111;
+    /* Tipografia Específica */
+    --box-ent-out-fs: 16px;
+    --box-ent-out-fw: 800;
+    --box-ent-out-style: normal;
+    --box-ent-out-deco: none;
+  }
+  .theme-dark {
+    --box-ent-out-bg: #F8DCDC;
+    --box-ent-out-text: #23395B;
+    --box-ent-out-border: #dbdbdb;
+  }
+
+  /* --- [GRUPO] NÚMERO DE PARCELAS --- */
+  :root {
+    --box-parc-bg: #F8DCDC;
+    --box-parc-text: #23395B;
+    --box-parc-border: #111;
+    /* Tipografia Específica */
+    --box-parc-fs: 16px;
+    --box-parc-fw: 800;
+    --box-parc-style: normal;
+    --box-parc-deco: none;
+  }
+  .theme-dark {
+    --box-parc-bg: #F8DCDC;
+    --box-parc-text: #23395B;
+    --box-parc-border: #dbdbdb;
+  }
+
+  /* --- [GRUPO] RESULTADO: VALOR DA ENTRADA --- */
+  :root {
+    --box-res-ent-bg: #FFFF66;
+    --box-res-ent-text: #23395B;
+    --box-res-ent-border: #111;
+    /* Tipografia Específica */
+    --box-res-ent-fs: 16px;
+    --box-res-ent-fw: 800;
+    --box-res-ent-style: normal;
+    --box-res-ent-deco: none;
+  }
+  .theme-dark {
+    --box-res-ent-bg: #FFFF66;
+    --box-res-ent-text: #23395B;
+    --box-res-ent-border: #dbdbdb;
+  }
+
+  /* --- [GRUPO] RESULTADO: VALOR DA PARCELA MENSAL --- */
+  :root {
+    --box-res-parc-bg: #FFFF66;
+    --box-res-parc-text: #23395B;
+    --box-res-parc-border: #111;
+    /* Tipografia Específica */
+    --box-res-parc-fs: 16px;
+    --box-res-parc-fw: 800;
+    --box-res-parc-style: normal;
+    --box-res-parc-deco: none;
+  }
+  .theme-dark {
+    --box-res-parc-bg: #FFFF66;
+    --box-res-parc-text: #23395B;
+    --box-res-parc-border: #dbdbdb;
+  }
+
+  /* --- [GRUPO] CARTÃO DE CRÉDITO (Select) --- */
+  :root {
+    --box-card-bg: #F8DCDC;
+    --box-card-text: #23395B;
+    --box-card-border: #111;
+    /* Tipografia Específica */
+    --box-card-fs: 16px;
+    --box-card-fw: 800;
+    --box-card-style: normal;
+    --box-card-deco: none;
+  }
+  .theme-dark {
+    --box-card-bg: #F8DCDC;
+    --box-card-text: #23395B;
+    --box-card-border: #dbdbdb;
+  }
+
+  /* --- [GRUPO] RESULTADO: PARCELA NO CARTÃO --- */
+  :root {
+    --box-res-card-bg: #FFFF66;
+    --box-res-card-text: #23395B;
+    --box-res-card-border: #111;
+    /* Tipografia Específica */
+    --box-res-card-fs: 16px;
+    --box-res-card-fw: 800;
+    --box-res-card-style: normal;
+    --box-res-card-deco: none;
+  }
+  .theme-dark {
+    --box-res-card-bg: #FFFF66;
+    --box-res-card-text: #23395B;
+    --box-res-card-border: #dbdbdb;
+  }
+
+  /* --- [GRUPO] SALDO A PAGAR (Sem juros) --- */
+  :root {
+    --box-saldo-bg: #f6f6f6;
+    --box-saldo-text: #23395B;
+    --box-saldo-border: #111;
+    /* Tipografia Específica */
+    --box-saldo-fs: 16px;
+    --box-saldo-fw: 800;
+    --box-saldo-style: normal;
+    --box-saldo-deco: none;
+  }
+  .theme-dark {
+    --box-saldo-bg: #f6f6f6;
+    --box-saldo-text: #23395B;
+    --box-saldo-border: #dbdbdb;
+  }
+
+  /* --- [GRUPO] VALOR PARCELADO --- */
+  :root {
+    --box-parc-fin-bg: #f6f6f6;
+    --box-parc-fin-text: #23395B;
+    --box-parc-fin-border: #111;
+    /* Tipografia Específica */
+    --box-parc-fin-fs: 16px;
+    --box-parc-fin-fw: 800;
+    --box-parc-fin-style: normal;
+    --box-parc-fin-deco: none;
+  }
+  .theme-dark {
+    --box-parc-fin-bg: #f6f6f6;
+    --box-parc-fin-text: #23395B;
+    --box-parc-fin-border: #dbdbdb;
+  }
+
+  /* --- [GRUPO] PRIMEIRA PARCELA (Data) --- */
+  :root {
+    --box-data-bg: #f6f6f6;
+    --box-data-text: #23395B;
+    --box-data-border: #111;
+    /* Tipografia Específica */
+    --box-data-fs: 16px;
+    --box-data-fw: 800;
+    --box-data-style: normal;
+    --box-data-deco: none;
+  }
+  .theme-dark {
+    --box-data-bg: #f6f6f6;
+    --box-data-text: #23395B;
+    --box-data-border: #dbdbdb;
+  }
+
+  /* --- [GRUPO] VALOR TOTAL DA VENDA --- */
+  :root {
+    --box-total-venda-bg: #f6f6f6;
+    --box-total-venda-text: #23395B;
+    --box-total-venda-border: #111;
+    /* Tipografia Específica */
+    --box-total-venda-fs: 16px;
+    --box-total-venda-fw: 800;
+    --box-total-venda-style: normal;
+    --box-total-venda-deco: none;
+  }
+  .theme-dark {
+    --box-total-venda-bg: #f6f6f6;
+    --box-total-venda-text: #23395B;
+    --box-total-venda-border: #dbdbdb;
+  }
+
+  /* --- [GRUPO] TOTAL DE JUROS --- */
+  :root {
+    --box-juros-bg: #f6f6f6;
+    --box-juros-text: #23395B;
+    --box-juros-border: #111;
+    /* Tipografia Específica */
+    --box-juros-fs: 16px;
+    --box-juros-fw: 800;
+    --box-juros-style: normal;
+    --box-juros-deco: none;
+  }
+  .theme-dark {
+    --box-juros-bg: #f6f6f6;
+    --box-juros-text: #23395B;
+    --box-juros-border: #dbdbdb;
+  }
+
+  /* --- [GRUPO] PRESENTES --- */
+  :root {
+    --box-gift-bg: #f6f6f6;
+    --box-gift-text: #23395B;
+    --box-gift-border: #111;
+    /* Tipografia Específica */
+    --box-gift-fs: 16px;
+    --box-gift-fw: 800;
+    --box-gift-style: normal;
+    --box-gift-deco: none;
+  }
+  .theme-dark {
+    --box-gift-bg: #f6f6f6;
+    --box-gift-text: #23395B;
+    --box-gift-border: #dbdbdb;
+  }
+
 
   /* -----------------------
-     LAYOUT / ESTILOS GERAIS
+     ESTILOS GERAIS (CSS)
      ----------------------- */
   *{box-sizing:border-box}
   html,body{height:100%;margin:0;}
   body{
-    font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
-    background: var(--bg);
-    color: var(--accent);
+    font-family: var(--font-family-base);
+    background: var(--bg-page);
+    color: var(--accent-color);
     display:flex;
     align-items:flex-start;
     justify-content:center;
@@ -152,128 +412,286 @@
 
   .wrap{ width:100%; max-width:520px; }
   .card{
-    background: var(--card);
-    border-radius:14px;
+    background: var(--bg-card);
+    border-radius: var(--radius-card);
     padding:16px 14px 22px 14px;
     box-shadow: 0 8px 22px rgba(20,30,60,0.06);
-    color: var(--accent);
+    color: var(--accent-color);
     transition: background .22s ease, color .22s ease, box-shadow .22s ease;
     position: relative;
     overflow: visible;
   }
 
+  /* Top Image & Logo */
   .topImageWrap { display:flex; justify-content:center; margin-bottom:12px; }
   .topImageLink{
-    width: var(--logo-size);
-    height: var(--logo-size);
+    width: 125px; height: 125px;
     border-radius:50%;
     overflow:hidden;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    display:flex; align-items:center; justify-content:center;
   }
   .topImage {
-    width:100%;
-    height:100%;
-    display:block;
-    object-fit:contain;
-    max-width:100%;
+    width:100%; height:100%; display:block; object-fit:contain; max-width:100%;
   }
 
-  h1{ font-size:18px;margin:0 0 10px; color:var(--main-text); text-align:center; font-weight:700; }
-  .section-title{ text-align:center; margin-top:6px; font-weight:800; color:var(--main-text); }
+  /* Tipografia */
+  h1{ font-size:var(--fs-h1); margin:0 0 10px; color:var(--text-main); text-align:center; font-weight:700; }
+  .section-title{ text-align:center; margin-top:6px; font-weight:800; color:var(--text-main); font-size:var(--fs-section-title); }
 
+  /* Section Divider (LINHAS) */
   section{
     margin-top:10px;
-    padding-top: calc(8px + var(--section-border-width));
+    padding-top: calc(8px + 1px);
     position: relative;
   }
-
   section::before{
-    content: "";
-    position: absolute;
-    left: var(--section-border-inset);
-    right: var(--section-border-inset);
-    top: 0;
-    height: var(--section-border-width);
-    background: var(--section-border-color);
-    border-radius: calc(var(--section-border-width) / 2);
-    pointer-events: none;
+    content: ""; position: absolute;
+    left: var(--line-margin-x); right: var(--line-margin-x); top: 0;
+    height: var(--line-thickness);
+    background: var(--line-color);
+    border-radius: 0.5px; pointer-events: none;
   }
 
-  .row{ display:flex; flex-direction:column; align-items:center; gap:6px; padding:8px 0; }
+  .row{ display:flex; flex-direction:column; align-items:center; gap:var(--gap-rows); padding:8px 0; }
 
+  /* Animação dos campos extras */
   .row-animate {
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
+    max-height: 0; opacity: 0; overflow: hidden;
     transition: max-height 0.4s ease, opacity 0.4s ease, padding 0.4s ease;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
+    padding-top: 0 !important; padding-bottom: 0 !important;
   }
   .row-animate.show {
-    max-height: 120px;
-    opacity: 1;
-    padding-top: 8px !important;
-    padding-bottom: 8px !important;
+    max-height: 120px; opacity: 1;
+    padding-top: 8px !important; padding-bottom: 8px !important;
   }
 
+  /* Labels */
   label{
     width:var(--field-width);
     text-align:left;
-    font-size:13px;
-    color:var(--label-text);
+    font-size:var(--fs-label);
+    color:var(--text-label);
     font-weight:700;
-    display:flex;
-    align-items:baseline;
-    gap:2px;
+    display:flex; align-items:baseline; gap:2px;
   }
-  label small{ font-size:11px;color:var(--label-text);font-weight:400;margin-left:6px; }
-  label small.dynamic{ font-size:12px;color:var(--label-text);font-weight:600;opacity:0.85;margin-left:6px; }
+  label small{ font-size:var(--fs-label-small); color:var(--text-label); font-weight:400; margin-left:6px; }
+  
+  /* Padronização do texto dinâmico */
+  label small.dynamic{ font-size:var(--fs-label-small); color:var(--text-label); font-weight:400; opacity:1; margin-left:6px; }
 
+  /* --- ESTILO CSS DA DOCUMENTAÇÃO --- */
+  .doc-label {
+    width: var(--field-width);
+    font-size: var(--fs-doc);
+    color: var(--text-doc);
+    font-weight: var(--fw-doc);
+    justify-content: left;
+  }
+
+  /* ----------------------------------------------------
+     INPUT BOX - CONFIGURAÇÃO GERAL E MAPEAMENTO
+     ---------------------------------------------------- */
   .inputBox{
     width:var(--field-width);
     height:var(--box-height);
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    display:flex; align-items:center; justify-content:center;
     padding:0 14px;
-    border-radius:var(--radius);
-    border:2px solid var(--border);
+    border-radius:var(--radius-box);
+    border:2px solid var(--border-global);
     font-weight:700;
-    background:#fff;
     transition: background .18s ease, border-color .18s ease;
   }
 
-  input.textInput, select.textInput{
-    outline:none;border:none;background:transparent;width:100%;
-    text-align:center;font-size:16px;font-weight:800;
-    -webkit-appearance:none;-moz-appearance:none;appearance:none;
-    color: var(--box-text); -webkit-text-fill-color: var(--box-text);
-    direction: ltr; text-align-last: center; -moz-text-align-last: center;
+  /* Mapeamento de Cores e Tipografia por ID */
+  
+  .inputBox:has(#valorNeg) { background: var(--box-neg-bg); border-color: var(--box-neg-border); }
+  .inputBox:has(#valorNeg) input { 
+    color: var(--box-neg-text); 
+    -webkit-text-fill-color: var(--box-neg-text);
+    font-size: var(--box-neg-fs);
+    font-weight: var(--box-neg-fw);
+    font-style: var(--box-neg-style);
+    text-decoration: var(--box-neg-deco);
   }
 
-  select.textInput option{ text-align:center; color:var(--box-text); }
-  select.textInput::-ms-expand { display: none; }
+  .inputBox:has(#desconto) { background: var(--box-desc-bg); border-color: var(--box-desc-border); }
+  .inputBox:has(#desconto) select { 
+    color: var(--box-desc-text);
+    font-size: var(--box-desc-fs);
+    font-weight: var(--box-desc-fw);
+    font-style: var(--box-desc-style);
+    text-decoration: var(--box-desc-deco);
+  }
+  
+  .inputBox:has(#descontoOutros) { background: var(--box-desc-out-bg); border-color: var(--box-desc-out-border); }
+  .inputBox:has(#descontoOutros) input { 
+    color: var(--box-desc-out-text); 
+    -webkit-text-fill-color: var(--box-desc-out-text); 
+    font-size: var(--box-desc-out-fs);
+    font-weight: var(--box-desc-out-fw);
+    font-style: var(--box-desc-out-style);
+    text-decoration: var(--box-desc-out-deco);
+  }
 
-  .editableBox{ background: var(--pink); }
-  .highlight{ background: var(--yellow); }
-  .readonlyBox{ background: #f6f6f6; }
+  .inputBox:has(#valorVendaText) { background: var(--box-venda-bg); border-color: var(--box-venda-border); }
+  .inputBox:has(#valorVendaText) .balance { 
+    color: var(--box-venda-text); 
+    font-size: var(--box-venda-fs);
+    font-weight: var(--box-venda-fw);
+    font-style: var(--box-venda-style);
+    text-decoration: var(--box-venda-deco);
+  }
 
-  .smallText{ font-size:12px; font-weight:600; color:var(--muted); text-align:center; }
-  .balance{ font-size:16px; font-weight:800; color:var(--accent); text-align:center; }
+  .inputBox:has(#entrada) { background: var(--box-ent-bg); border-color: var(--box-ent-border); }
+  .inputBox:has(#entrada) select { 
+    color: var(--box-ent-text); 
+    font-size: var(--box-ent-fs);
+    font-weight: var(--box-ent-fw);
+    font-style: var(--box-ent-style);
+    text-decoration: var(--box-ent-deco);
+  }
 
-  .note{ font-size:12px; color:var(--final-desc); text-align:center; margin-top:12px; }
+  .inputBox:has(#entradaOutros) { background: var(--box-ent-out-bg); border-color: var(--box-ent-out-border); }
+  .inputBox:has(#entradaOutros) input { 
+    color: var(--box-ent-out-text); 
+    -webkit-text-fill-color: var(--box-ent-out-text); 
+    font-size: var(--box-ent-out-fs);
+    font-weight: var(--box-ent-out-fw);
+    font-style: var(--box-ent-out-style);
+    text-decoration: var(--box-ent-out-deco);
+  }
 
-  .signature{ font-size:13px;color:var(--credit-developer);text-align:center;margin-top:8px; }
-  .signature .handle{ color:var(--credit-handle); font-weight:800; text-decoration:none; margin-left:6px; }
+  .inputBox:has(#numParcelas) { background: var(--box-parc-bg); border-color: var(--box-parc-border); }
+  .inputBox:has(#numParcelas) select { 
+    color: var(--box-parc-text); 
+    font-size: var(--box-parc-fs);
+    font-weight: var(--box-parc-fw);
+    font-style: var(--box-parc-style);
+    text-decoration: var(--box-parc-deco);
+  }
+
+  .inputBox:has(#valorEntradaText) { background: var(--box-res-ent-bg); border-color: var(--box-res-ent-border); }
+  .inputBox:has(#valorEntradaText) .balance { 
+    color: var(--box-res-ent-text); 
+    font-size: var(--box-res-ent-fs);
+    font-weight: var(--box-res-ent-fw);
+    font-style: var(--box-res-ent-style);
+    text-decoration: var(--box-res-ent-deco);
+  }
+
+  .inputBox:has(#valorParcelaText) { background: var(--box-res-parc-bg); border-color: var(--box-res-parc-border); }
+  .inputBox:has(#valorParcelaText) .balance { 
+    color: var(--box-res-parc-text); 
+    font-size: var(--box-res-parc-fs);
+    font-weight: var(--box-res-parc-fw);
+    font-style: var(--box-res-parc-style);
+    text-decoration: var(--box-res-parc-deco);
+  }
+
+  .inputBox:has(#cartao) { background: var(--box-card-bg); border-color: var(--box-card-border); }
+  .inputBox:has(#cartao) select { 
+    color: var(--box-card-text); 
+    font-size: var(--box-card-fs);
+    font-weight: var(--box-card-fw);
+    font-style: var(--box-card-style);
+    text-decoration: var(--box-card-deco);
+  }
+
+  .inputBox:has(#cartaoParcelaText) { background: var(--box-res-card-bg); border-color: var(--box-res-card-border); }
+  .inputBox:has(#cartaoParcelaText) .balance { 
+    color: var(--box-res-card-text); 
+    font-size: var(--box-res-card-fs);
+    font-weight: var(--box-res-card-fw);
+    font-style: var(--box-res-card-style);
+    text-decoration: var(--box-res-card-deco);
+  }
+
+  .inputBox:has(#saldoSemJurosText) { background: var(--box-saldo-bg); border-color: var(--box-saldo-border); }
+  .inputBox:has(#saldoSemJurosText) .balance { 
+    color: var(--box-saldo-text); 
+    font-size: var(--box-saldo-fs);
+    font-weight: var(--box-saldo-fw);
+    font-style: var(--box-saldo-style);
+    text-decoration: var(--box-saldo-deco);
+  }
+
+  .inputBox:has(#valorParceladoText) { background: var(--box-parc-fin-bg); border-color: var(--box-parc-fin-border); }
+  .inputBox:has(#valorParceladoText) .balance { 
+    color: var(--box-parc-fin-text); 
+    font-size: var(--box-parc-fin-fs);
+    font-weight: var(--box-parc-fin-fw);
+    font-style: var(--box-parc-fin-style);
+    text-decoration: var(--box-parc-fin-deco);
+  }
+
+  .inputBox:has(#primeiraParcelaText) { background: var(--box-data-bg); border-color: var(--box-data-border); }
+  .inputBox:has(#primeiraParcelaText) .balance { 
+    color: var(--box-data-text); 
+    font-size: var(--box-data-fs);
+    font-weight: var(--box-data-fw);
+    font-style: var(--box-data-style);
+    text-decoration: var(--box-data-deco);
+  }
+
+  .inputBox:has(#valorTotalVendaText) { background: var(--box-total-venda-bg); border-color: var(--box-total-venda-border); }
+  .inputBox:has(#valorTotalVendaText) .balance { 
+    color: var(--box-total-venda-text); 
+    font-size: var(--box-total-venda-fs);
+    font-weight: var(--box-total-venda-fw);
+    font-style: var(--box-total-venda-style);
+    text-decoration: var(--box-total-venda-deco);
+  }
+
+  .inputBox:has(#totalJurosText) { background: var(--box-juros-bg); border-color: var(--box-juros-border); }
+  .inputBox:has(#totalJurosText) .balance { 
+    color: var(--box-juros-text); 
+    font-size: var(--box-juros-fs);
+    font-weight: var(--box-juros-fw);
+    font-style: var(--box-juros-style);
+    text-decoration: var(--box-juros-deco);
+  }
+
+  .inputBox:has(#presentesValorText) { background: var(--box-gift-bg); border-color: var(--box-gift-border); }
+  .inputBox:has(#presentesValorText) .balance { 
+    color: var(--box-gift-text); 
+    font-size: var(--box-gift-fs);
+    font-weight: var(--box-gift-fw);
+    font-style: var(--box-gift-style);
+    text-decoration: var(--box-gift-deco);
+  }
+
+  /* ----------------------------------------------------
+     INPUTS INTERNOS E SELECTS
+     ---------------------------------------------------- */
+  input.textInput, select.textInput{
+    outline:none; border:none; background:transparent; width:100%;
+    text-align:center;
+    /* Defaults se não sobrescritos */
+    font-size: var(--global-input-size); 
+    font-weight: var(--global-input-weight);
+    -webkit-appearance:none; -moz-appearance:none; appearance:none;
+    direction: ltr; text-align-last: center; -moz-text-align-last: center;
+  }
+  select.textInput option{ text-align:center; color:#23395B; }
+
+  /* Textos de Resultado (Balance) */
+  .balance{ 
+    /* Defaults se não sobrescritos */
+    font-size: var(--global-input-size); 
+    font-weight: var(--global-input-weight);
+    text-align:center; 
+  }
+
+  /* Rodapé / Notas */
+  .note{ font-size:var(--fs-note); color:var(--text-muted); text-align:center; margin-top:12px; }
+  .signature{ font-size:var(--fs-credit); color:var(--text-muted); text-align:center; margin-top:8px; }
+  .signature .handle{ color:var(--text-muted); font-weight:800; text-decoration:none; margin-left:6px; }
   .signature a{ color:inherit; text-decoration:none; font-weight:800; }
 
   /* --- THEME SWITCH --- */
   .theme-container { display:flex; justify-content:center; margin-top:12px; margin-bottom:8px; }
   .switch {
-    width: var(--switch-w);
-    height: var(--switch-h);
+    width: 54px; height: 28px;
     border-radius:999px;
     background: var(--switch-track);
     display:inline-flex; align-items:center; padding:4px; box-sizing:border-box;
@@ -282,31 +700,20 @@
   }
   .switch.active { background: var(--switch-active-track); }
   .knob {
-    width: calc(var(--switch-h) - 8px);
-    height: calc(var(--switch-h) - 8px);
+    width: 20px; height: 20px;
     background: var(--switch-knob);
-    border-radius:50%;
-    position: absolute;
-    left:4px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    overflow:hidden;
-    transition: transform .20s ease, background .18s ease;
+    border-radius:50%; position: absolute; left:4px;
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden; transition: transform .20s ease, background .18s ease;
     z-index:2;
   }
-  .switch.active .knob { transform: translateX(calc(var(--switch-w) - var(--switch-h))); }
+  .switch.active .knob { transform: translateX(26px); }
+  
   .knob .icon-sun, .knob .icon-moon {
-    width: var(--icon-size);
-    height: var(--icon-size);
-    position:absolute;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    opacity:0;
-    transition: opacity .18s ease, transform .18s ease;
-    color: var(--icon-inactive);
-    pointer-events:none;
+    width: 12px; height: 12px; position:absolute;
+    display:flex; align-items:center; justify-content:center;
+    opacity:0; transition: opacity .18s ease, transform .18s ease;
+    color: var(--icon-inactive); pointer-events:none;
   }
   .switch:not(.active) .knob .icon-sun { opacity:1; color: var(--icon-active); transform: scale(1); }
   .switch.active .knob .icon-moon { opacity:1; color: var(--icon-active); transform: scale(1); }
@@ -314,42 +721,30 @@
 
   @media (max-width:420px){
     :root{ --field-width:86%; }
-    .topImageLink { width: calc(var(--logo-size) * 0.885); height: calc(var(--logo-size) * 0.885); }
+    .topImageLink { width: 110px; height: 110px; }
   }
 
   /* --- MODAL DESIGN --- */
   .modal-overlay{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.55);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    z-index:9999;
+    position:fixed; inset:0; background:rgba(0,0,0,0.55);
+    display:none; align-items:center; justify-content:center; z-index:9999;
   }
   .modal{
-    background:var(--card);
-    color:var(--main-text);
-    padding:20px 18px;
-    border-radius:12px;
-    max-width:320px;
-    width:90%;
-    box-shadow:0 12px 30px rgba(0,0,0,0.25);
-    text-align:center;
+    background:var(--bg-card); color:var(--text-main);
+    padding:20px 18px; border-radius:12px;
+    max-width:320px; width:90%;
+    box-shadow:0 12px 30px rgba(0,0,0,0.25); text-align:center;
   }
   .modal h3{ margin:0 0 10px; font-size:16px; font-weight:800; }
-  .modal p{ font-size:14px; margin:0 0 8px; color:var(--muted); }
+  .modal p{ font-size:14px; margin:0 0 8px; color:var(--text-muted); }
   .modal strong{ display: block; font-size: 15px; margin-bottom: 12px; }
   .modal button{
-    border:none;
-    border-radius:8px;
-    padding:10px 16px;
-    font-size:14px;
-    font-weight:800;
-    background:var(--accent);
-    color:#fff;
-    cursor:pointer;
+    border:none; border-radius:8px; padding:10px 16px;
+    font-size:14px; font-weight:800;
+    background:var(--accent-color); color:#fff; cursor:pointer;
   }
+  
+  :root { --presentes-factor: 0.30; }
 </style>
 </head>
 <body>
@@ -379,7 +774,7 @@
         <div class="row row-animate" id="rowDescontoOutros">
           <label>DESCONTO <small class="dynamic" id="descMaxLabel">(Máximo R$ 0,00)</small></label>
           <div class="inputBox editableBox">
-            <input id="descontoOutros" class="textInput" type="text" value="R$ 0,00">
+            <input id="descontoOutros" class="textInput" inputmode="decimal" type="text" value="R$ 0,00">
           </div>
         </div>
         <div class="row">
@@ -401,7 +796,7 @@
         <div class="row row-animate" id="rowEntradaOutros">
           <label>VALOR DE ENTRADA <small class="dynamic" id="minEntradaLabel">(Minimo R$ 0,00)</small></label>
           <div class="inputBox editableBox">
-            <input id="entradaOutros" class="textInput" type="text" value="R$ 0,00">
+            <input id="entradaOutros" class="textInput" inputmode="decimal" type="text" value="R$ 0,00">
           </div>
         </div>
         <div class="row">
@@ -417,7 +812,7 @@
           </div>
         </div>
         <div class="row">
-          <label>VALOR DA PARCELA MENSAL</label>
+          <label>VALOR DA PARCELA MENSAL <small class="dynamic" id="labelValorParcelaSmall">(Em 00x no boleto)</small></label>
           <div class="inputBox highlight">
             <div id="valorParcelaText" class="balance">R$ 0,00</div>
           </div>
@@ -477,17 +872,17 @@
       <section>
         <div class="section-title">DOCUMENTAÇÃO</div>
         <div class="row" style="margin-top:8px; gap:2px;">
-          <label>• Documento com foto</label>
-          <label>• Comprovante de endereço</label>
-          <label>• Comprovante de renda</label>
+          <label class="doc-label">• Documento com foto</label>
+          <label class="doc-label">• Comprovante de renda</label>
+          <label class="doc-label">• Comprovante de endereço</label>
         </div>
       </section>
 
       <div class="theme-container">
         <button id="themeSwitch" class="switch" type="button">
           <div class="knob">
-            <span class="icon-sun" data-src="https://raw.githubusercontent.com/erikprosa/calculadora-royal/c5582556e5e0dee0f2164f75f2dc54668195e1df/sol_full.svg"></span>
-            <span class="icon-moon" data-src="https://raw.githubusercontent.com/erikprosa/calculadora-royal/c5582556e5e0dee0f2164f75f2dc54668195e1df/lua_full.svg"></span>
+            <span class="icon-sun"></span>
+            <span class="icon-moon"></span>
           </div>
         </button>
       </div>
@@ -571,6 +966,7 @@ const outValorVenda = document.getElementById('valorVendaText');
 const outValorEntrada = document.getElementById('valorEntradaText');
 const labelValorEntradaSmall = document.getElementById('labelValorEntradaSmall');
 const outValorParcela = document.getElementById('valorParcelaText');
+const labelValorParcelaSmall = document.getElementById('labelValorParcelaSmall');
 const outCartaoParcela = document.getElementById('cartaoParcelaText');
 const outSaldoSemJuros = document.getElementById('saldoSemJurosText');
 const outValorParcelado = document.getElementById('valorParceladoText');
@@ -637,6 +1033,7 @@ function calcularTudo(){
   outValorEntrada.textContent = formatToBRLNumber(valorEntrada);
   labelValorEntradaSmall.textContent = '(' + formatToBRLNumber(round2(valorEntrada/12)) + ' em 12x)';
   outValorParcela.textContent = formatToBRLNumber(paymentMonthly);
+  labelValorParcelaSmall.textContent = '(Em ' + parcelas + 'x no boleto)';
   outCartaoParcela.textContent = formatToBRLNumber(cartaoParcela);
   outSaldoSemJuros.textContent = formatToBRLNumber(saldoSemJuros);
   outValorParcelado.textContent = formatToBRLNumber(totalParcelado);
@@ -720,16 +1117,36 @@ function closeModalEntradaMax(){ document.getElementById('modalEntradaMax').styl
   async function applyTheme(theme){
     document.body.classList.toggle('theme-dark', theme === 'dark');
     switchBtn.classList.toggle('active', theme === 'dark');
-    const target = getComputedStyle(document.documentElement).getPropertyValue(theme === 'dark' ? '--dark-logo' : '--light-logo').match(/url\("(.*)"\)/)[1];
-    topLogoImg.src = target;
+    
+    // CORREÇÃO CIRÚRGICA: Busca a variável específica conforme a classe presente no body
+    const style = getComputedStyle(document.documentElement);
+    let targetUrl = "";
+    
+    if (document.body.classList.contains('theme-dark')) {
+      targetUrl = style.getPropertyValue('--src-logo-dark');
+    } else {
+      targetUrl = style.getPropertyValue('--src-logo-light');
+    }
+    
+    // Limpeza da string da URL para o src da img
+    targetUrl = targetUrl.replace(/url\("(.*)"\)/, '$1').trim();
+    if(targetUrl) topLogoImg.src = targetUrl;
+    
     localStorage.setItem('royal_theme', theme);
   }
+  
   applyTheme(current);
   switchBtn.onclick = () => { current = current === 'dark' ? 'light' : 'dark'; applyTheme(current); };
 })();
 
 async function injectIcon(spanEl) {
-  const url = spanEl.getAttribute('data-src');
+  const style = getComputedStyle(document.documentElement);
+  let urlVar = "";
+  if(spanEl.classList.contains("icon-sun")) urlVar = style.getPropertyValue('--src-icon-sun');
+  if(spanEl.classList.contains("icon-moon")) urlVar = style.getPropertyValue('--src-icon-moon');
+  
+  const url = urlVar.replace(/"/g, '').trim();
+
   try {
     const resp = await fetch(url);
     const txt = await resp.text();
