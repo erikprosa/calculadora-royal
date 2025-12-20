@@ -1,0 +1,746 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Calculadora Royal — Mobile</title>
+
+<link rel="icon" href="https://raw.githubusercontent.com/erikprosa/calculadora-royal/2d83a7735140ea56946b9eb71d47e5c151829820/favicon.svg" type="image/svg+xml">
+<link rel="shortcut icon" href="https://raw.githubusercontent.com/erikprosa/calculadora-royal/2d83a7735140ea56946b9eb71d47e5c151829820/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="https://raw.githubusercontent.com/erikprosa/calculadora-royal/2d83a7735140ea56946b9eb71d47e5c151829820/favicon.svg" as="image">
+
+<meta name="theme-color" content="#ffffff" id="meta-theme-color" />
+<style>
+  /* -----------------------
+     VARIÁVEIS DE TEMA
+     ----------------------- */
+  :root{
+    --light-bg: #ffffff;
+    --light-card: #ffffff;
+    --light-accent: #23395B;
+    --light-muted: #6b7280;
+    --light-pink: #F8DCDC;
+    --light-yellow: #FFFF66;
+    --light-border: #111;
+    --light-label-text: #6b7280;
+    --light-box-text: #23395B;
+    --light-main-text: #12223a;
+    --light-final-desc: #6b7280;
+    --light-credit-developer: #6b7280;
+    --light-credit-handle: #23395B;
+    --light-icon-active: #000000;
+    --light-icon-inactive: #8a8a8a;
+    --light-switch-track: #E6E6EA;
+    --light-switch-knob: #FFFFFF;
+    --light-switch-active-track: #D1D5DB;
+    --light-switch-border: rgba(0,0,0,0.12);
+    --light-logo: url("https://raw.githubusercontent.com/erikprosa/calculadora-royal/2d83a7735140ea56946b9eb71d47e5c151829820/Logo.svg");
+    --dark-logo: url("https://raw.githubusercontent.com/erikprosa/calculadora-royal/2d83a7735140ea56946b9eb71d47e5c151829820/Logo_White.svg");
+    --light-logo-size: 125px;
+    --light-icon-size: 12px;
+
+    --dark-bg: #212830;
+    --dark-card: #0f1720;
+    --dark-accent: #23395B;
+    --dark-muted: #A3A8B3;
+    --dark-pink: #F8DCDC;
+    --dark-yellow: #FFFF66;
+    --dark-border: #dbdbdb;
+    --dark-label-text: #A3A8B3;
+    --dark-box-text: #23395B;
+    --dark-main-text: #ffffff;
+    --dark-final-desc: #6b7280;
+    --dark-credit-developer: #6b7280;
+    --dark-credit-handle: #c6c6c6;
+    --dark-icon-active: #000000;
+    --dark-icon-inactive: #8a8a8a;
+    --dark-switch-track: #2b3035;
+    --dark-switch-knob: #d3d3d3;
+    --dark-switch-active-track: #3a3f45;
+    --dark-switch-border: rgba(255,255,255,0.08);
+    --dark-logo-size: 125px;
+    --dark-icon-size: 12px;
+
+    --light-section-border-color: rgba(35, 57, 91, 0.25);
+    --light-section-border-width: 1px;
+    --light-section-border-style: solid;
+    --light-section-border-inset: 14px;
+    --dark-section-border-color: rgba(255, 255, 255, 0.25);
+    --dark-section-border-width: 1px;
+    --dark-section-border-style: solid;
+    --dark-section-border-inset: 14px;
+
+    --bg: var(--light-bg);
+    --card: var(--light-card);
+    --accent: var(--light-accent);
+    --muted: var(--light-muted);
+    --pink: var(--light-pink);
+    --yellow: var(--light-yellow);
+    --border: var(--light-border);
+    --icon-active: var(--light-icon-active);
+    --icon-inactive: var(--light-icon-inactive);
+    --switch-track: var(--light-switch-track);
+    --switch-knob: var(--light-switch-knob);
+    --switch-active-track: var(--light-switch-active-track);
+    --switch-border: var(--light-switch-border);
+    --label-text: var(--light-label-text);
+    --box-text: var(--light-box-text);
+    --main-text: var(--light-main-text);
+    --final-desc: var(--light-final-desc);
+    --credit-developer: var(--light-credit-developer);
+    --credit-handle: var(--light-credit-handle);
+    --section-border-color: var(--light-section-border-color);
+    --section-border-width: var(--light-section-border-width);
+    --section-border-style: var(--light-section-border-style);
+    --section-border-inset: var(--light-section-border-inset);
+    --logo-size: var(--light-logo-size);
+    --icon-size: var(--light-icon-size);
+
+    --field-width: 60%;
+    --radius: 8px;
+    --box-height: 56px;
+    --switch-w: 54px;
+    --switch-h: 28px;
+    --presentes-factor: 0.30;
+  }
+
+  .theme-dark {
+    --bg: var(--dark-bg);
+    --card: var(--dark-card);
+    --accent: var(--dark-accent);
+    --muted: var(--dark-muted);
+    --pink: var(--dark-pink);
+    --yellow: var(--dark-yellow);
+    --border: var(--dark-border);
+    --icon-active: var(--dark-icon-active);
+    --icon-inactive: var(--dark-icon-inactive);
+    --switch-track: var(--dark-switch-track);
+    --switch-knob: var(--dark-switch-knob);
+    --switch-active-track: var(--dark-switch-active-track);
+    --switch-border: var(--dark-switch-border);
+    --label-text: var(--dark-label-text);
+    --box-text: var(--dark-box-text);
+    --main-text: var(--dark-main-text);
+    --final-desc: var(--dark-final-desc);
+    --credit-developer: var(--dark-credit-developer);
+    --credit-handle: var(--dark-credit-handle);
+    --section-border-color: var(--dark-section-border-color);
+    --section-border-width: var(--dark-section-border-width);
+    --section-border-style: var(--dark-section-border-style);
+    --section-border-inset: var(--dark-section-border-inset);
+    --logo-size: var(--dark-logo-size);
+    --icon-size: var(--dark-icon-size);
+  }
+
+  /* -----------------------
+     LAYOUT / ESTILOS GERAIS
+     ----------------------- */
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;}
+  body{
+    font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--accent);
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    padding:18px 12px;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    transition: background .22s ease, color .22s ease;
+  }
+
+  .wrap{ width:100%; max-width:520px; }
+  .card{
+    background: var(--card);
+    border-radius:14px;
+    padding:16px 14px 22px 14px;
+    box-shadow: 0 8px 22px rgba(20,30,60,0.06);
+    color: var(--accent);
+    transition: background .22s ease, color .22s ease, box-shadow .22s ease;
+    position: relative;
+    overflow: visible;
+  }
+
+  .topImageWrap { display:flex; justify-content:center; margin-bottom:12px; }
+  .topImageLink{
+    width: var(--logo-size);
+    height: var(--logo-size);
+    border-radius:50%;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .topImage {
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit:contain;
+    max-width:100%;
+  }
+
+  h1{ font-size:18px;margin:0 0 10px; color:var(--main-text); text-align:center; font-weight:700; }
+  .section-title{ text-align:center; margin-top:6px; font-weight:800; color:var(--main-text); }
+
+  section{
+    margin-top:10px;
+    padding-top: calc(8px + var(--section-border-width));
+    position: relative;
+  }
+
+  section::before{
+    content: "";
+    position: absolute;
+    left: var(--section-border-inset);
+    right: var(--section-border-inset);
+    top: 0;
+    height: var(--section-border-width);
+    background: var(--section-border-color);
+    border-radius: calc(var(--section-border-width) / 2);
+    pointer-events: none;
+  }
+
+  .row{ display:flex; flex-direction:column; align-items:center; gap:6px; padding:8px 0; }
+
+  .row-animate {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.4s ease, padding 0.4s ease;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+  .row-animate.show {
+    max-height: 120px;
+    opacity: 1;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+  }
+
+  label{
+    width:var(--field-width);
+    text-align:left;
+    font-size:13px;
+    color:var(--label-text);
+    font-weight:700;
+    display:flex;
+    align-items:baseline;
+    gap:2px;
+  }
+  label small{ font-size:11px;color:var(--label-text);font-weight:400;margin-left:6px; }
+  label small.dynamic{ font-size:12px;color:var(--label-text);font-weight:600;opacity:0.85;margin-left:6px; }
+
+  .inputBox{
+    width:var(--field-width);
+    height:var(--box-height);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0 14px;
+    border-radius:var(--radius);
+    border:2px solid var(--border);
+    font-weight:700;
+    background:#fff;
+    transition: background .18s ease, border-color .18s ease;
+  }
+
+  input.textInput, select.textInput{
+    outline:none;border:none;background:transparent;width:100%;
+    text-align:center;font-size:16px;font-weight:800;
+    -webkit-appearance:none;-moz-appearance:none;appearance:none;
+    color: var(--box-text); -webkit-text-fill-color: var(--box-text);
+    direction: ltr; text-align-last: center; -moz-text-align-last: center;
+  }
+
+  select.textInput option{ text-align:center; color:var(--box-text); }
+  select.textInput::-ms-expand { display: none; }
+
+  .editableBox{ background: var(--pink); }
+  .highlight{ background: var(--yellow); }
+  .readonlyBox{ background: #f6f6f6; }
+
+  .smallText{ font-size:12px; font-weight:600; color:var(--muted); text-align:center; }
+  .balance{ font-size:16px; font-weight:800; color:var(--accent); text-align:center; }
+
+  .note{ font-size:12px; color:var(--final-desc); text-align:center; margin-top:12px; }
+
+  .signature{ font-size:13px;color:var(--credit-developer);text-align:center;margin-top:8px; }
+  .signature .handle{ color:var(--credit-handle); font-weight:800; text-decoration:none; margin-left:6px; }
+  .signature a{ color:inherit; text-decoration:none; font-weight:800; }
+
+  /* --- THEME SWITCH --- */
+  .theme-container { display:flex; justify-content:center; margin-top:12px; margin-bottom:8px; }
+  .switch {
+    width: var(--switch-w);
+    height: var(--switch-h);
+    border-radius:999px;
+    background: var(--switch-track);
+    display:inline-flex; align-items:center; padding:4px; box-sizing:border-box;
+    transition: background .18s ease, border-color .12s ease; position: relative; z-index:1;
+    border: 2px solid var(--switch-border); overflow: visible;
+  }
+  .switch.active { background: var(--switch-active-track); }
+  .knob {
+    width: calc(var(--switch-h) - 8px);
+    height: calc(var(--switch-h) - 8px);
+    background: var(--switch-knob);
+    border-radius:50%;
+    position: absolute;
+    left:4px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    transition: transform .20s ease, background .18s ease;
+    z-index:2;
+  }
+  .switch.active .knob { transform: translateX(calc(var(--switch-w) - var(--switch-h))); }
+  .knob .icon-sun, .knob .icon-moon {
+    width: var(--icon-size);
+    height: var(--icon-size);
+    position:absolute;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    opacity:0;
+    transition: opacity .18s ease, transform .18s ease;
+    color: var(--icon-inactive);
+    pointer-events:none;
+  }
+  .switch:not(.active) .knob .icon-sun { opacity:1; color: var(--icon-active); transform: scale(1); }
+  .switch.active .knob .icon-moon { opacity:1; color: var(--icon-active); transform: scale(1); }
+  .knob svg path, .knob svg circle, .knob svg rect, .knob svg g { fill: currentColor !important; stroke: none !important; }
+
+  @media (max-width:420px){
+    :root{ --field-width:86%; }
+    .topImageLink { width: calc(var(--logo-size) * 0.885); height: calc(var(--logo-size) * 0.885); }
+  }
+
+  /* --- MODAL DESIGN --- */
+  .modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.55);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:9999;
+  }
+  .modal{
+    background:var(--card);
+    color:var(--main-text);
+    padding:20px 18px;
+    border-radius:12px;
+    max-width:320px;
+    width:90%;
+    box-shadow:0 12px 30px rgba(0,0,0,0.25);
+    text-align:center;
+  }
+  .modal h3{ margin:0 0 10px; font-size:16px; font-weight:800; }
+  .modal p{ font-size:14px; margin:0 0 8px; color:var(--muted); }
+  .modal strong{ display: block; font-size: 15px; margin-bottom: 12px; }
+  .modal button{
+    border:none;
+    border-radius:8px;
+    padding:10px 16px;
+    font-size:14px;
+    font-weight:800;
+    background:var(--accent);
+    color:#fff;
+    cursor:pointer;
+  }
+</style>
+</head>
+<body>
+  <div class="wrap" id="wrap">
+    <div class="card" id="card" role="main">
+      <div class="topImageWrap">
+        <a class="topImageLink" href="https://www.royalprestige.com/br" target="_blank" rel="noopener noreferrer">
+          <img class="topImage" src="" alt="Logo Royal Prestige" id="topLogo">
+        </a>
+      </div>
+
+      <h1>Calculadora Royal</h1>
+
+      <section aria-labelledby="dados-title">
+        <div class="row" id="dados-title">
+          <label for="valorNeg">VALOR DE NEGOCIAÇÃO</label>
+          <div class="inputBox editableBox">
+            <input id="valorNeg" class="textInput" inputmode="decimal" type="text" value="R$ 0,00">
+          </div>
+        </div>
+        <div class="row">
+          <label for="desconto">DESCONTO <small>(0% a 10%)</small></label>
+          <div class="inputBox editableBox">
+            <select id="desconto" class="textInput"></select>
+          </div>
+        </div>
+        <div class="row row-animate" id="rowDescontoOutros">
+          <label>DESCONTO <small class="dynamic" id="descMaxLabel">(Máximo R$ 0,00)</small></label>
+          <div class="inputBox editableBox">
+            <input id="descontoOutros" class="textInput" type="text" value="R$ 0,00">
+          </div>
+        </div>
+        <div class="row">
+          <label>VALOR DE VENDA</label>
+          <div class="inputBox readonlyBox">
+            <div id="valorVendaText" class="balance">R$ 0,00</div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-title">FINANCIAMENTO / BOLETO</div>
+        <div class="row" style="margin-top:10px">
+          <label for="entrada">ENTRADA <small>(5% a 50%)</small></label>
+          <div class="inputBox editableBox">
+            <select id="entrada" class="textInput"></select>
+          </div>
+        </div>
+        <div class="row row-animate" id="rowEntradaOutros">
+          <label>VALOR DE ENTRADA <small class="dynamic" id="minEntradaLabel">(Minimo R$ 0,00)</small></label>
+          <div class="inputBox editableBox">
+            <input id="entradaOutros" class="textInput" type="text" value="R$ 0,00">
+          </div>
+        </div>
+        <div class="row">
+          <label for="numParcelas">NÚMERO DE PARCELAS <small>(Até 30x no boleto)</small></label>
+          <div class="inputBox editableBox">
+            <select id="numParcelas" class="textInput"></select>
+          </div>
+        </div>
+        <div class="row">
+          <label>VALOR DA ENTRADA <small class="dynamic" id="labelValorEntradaSmall">(R$ 0,00 em 12x)</small></label>
+          <div class="inputBox highlight">
+            <div id="valorEntradaText" class="balance">R$ 0,00</div>
+          </div>
+        </div>
+        <div class="row">
+          <label>VALOR DA PARCELA MENSAL</label>
+          <div class="inputBox highlight">
+            <div id="valorParcelaText" class="balance">R$ 0,00</div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-title">CARTÃO DE CRÉDITO</div>
+        <div class="row" style="margin-top:10px">
+          <label for="cartao">CARTÃO <small>(Sem juros)</small></label>
+          <div class="inputBox editableBox">
+            <select id="cartao" class="textInput"></select>
+          </div>
+        </div>
+        <div class="row">
+          <label>PARCELA NO CARTÃO</label>
+          <div class="inputBox highlight">
+            <div id="cartaoParcelaText" class="balance">R$ 0,00</div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-title">TOTAIS E INFORMAÇÕES FINAIS</div>
+        <div class="row" style="margin-top:10px">
+          <label>SALDO A PAGAR SEM JUROS</label>
+          <div class="inputBox readonlyBox"><div id="saldoSemJurosText" class="balance">R$ 0,00</div></div>
+        </div>
+        <div class="row">
+          <label>VALOR PARCELADO</label>
+          <div class="inputBox readonlyBox"><div id="valorParceladoText" class="balance">R$ 0,00</div></div>
+        </div>
+        <div class="row">
+          <label>PRIMEIRA PARCELA <small>(Para 40 dias)</small></label>
+          <div class="inputBox readonlyBox"><div id="primeiraParcelaText" class="balance">--/--/----</div></div>
+        </div>
+        <div class="row">
+          <label>VALOR TOTAL DA VENDA <small>(Incluindo juros e taxas)</small></label>
+          <div class="inputBox readonlyBox"><div id="valorTotalVendaText" class="balance">R$ 0,00</div></div>
+        </div>
+        <div class="row">
+          <label>MONTANTE TOTAL DE JUROS</label>
+          <div class="inputBox readonlyBox"><div id="totalJurosText" class="balance">R$ 0,00</div></div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-title">PRESENTES</div>
+        <div class="row" style="margin-top:10px">
+          <label for="valorPresentes">VALOR PARA PRESENTES <small class="dynamic" id="presentesFactorSmall">(30%)</small></label>
+          <div class="inputBox readonlyBox">
+            <div id="presentesValorText" class="balance">R$ 0,00</div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-title">DOCUMENTAÇÃO</div>
+        <div class="row" style="margin-top:8px; gap:2px;">
+          <label>• Documento com foto</label>
+          <label>• Comprovante de endereço</label>
+          <label>• Comprovante de renda</label>
+        </div>
+      </section>
+
+      <div class="theme-container">
+        <button id="themeSwitch" class="switch" type="button">
+          <div class="knob">
+            <span class="icon-sun" data-src="https://raw.githubusercontent.com/erikprosa/calculadora-royal/c5582556e5e0dee0f2164f75f2dc54668195e1df/sol_full.svg"></span>
+            <span class="icon-moon" data-src="https://raw.githubusercontent.com/erikprosa/calculadora-royal/c5582556e5e0dee0f2164f75f2dc54668195e1df/lua_full.svg"></span>
+          </div>
+        </button>
+      </div>
+
+      <div class="note">Campos em <strong>rosa</strong> são editáveis. Campos em <strong>amarelo</strong> são os principais em destaque.</div>
+
+      <div class="signature">
+        <span class="developer">developed by</span>
+        <a class="handle" href="https://wa.me/5512988855235" target="_blank" rel="noopener noreferrer">@erikprosa</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modalDesconto">
+    <div class="modal">
+      <h3>Desconto acima do permitido</h3>
+      <p>O valor digitado é maior que o desconto máximo permitido.</p>
+      <strong id="modalMaxDescValue">R$ 0,00</strong>
+      <button type="button" onclick="closeModalDesconto()">Entendi</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modalEntradaMin">
+    <div class="modal">
+      <h3>Valor definido inferior ao minimo</h3>
+      <p>O valor da entrada não pode ser menor que 5% do valor de venda.</p>
+      <strong id="modalMinEntradaValue">R$ 0,00</strong>
+      <button type="button" onclick="closeModalEntradaMin()">Entendi</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modalEntradaMax">
+    <div class="modal">
+      <h3>Valor definido superior ao valor negociado</h3>
+      <p>O valor da entrada não pode ser maior que o valor total de venda.</p>
+      <strong id="modalMaxEntradaValue">R$ 0,00</strong>
+      <button type="button" onclick="closeModalEntradaMax()">Entendi</button>
+    </div>
+  </div>
+
+<script>
+/* -----------------------
+   LÓGICA E UTILITÁRIOS
+   ----------------------- */
+const brl = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'});
+function clamp(n, min, max){ if (isNaN(n)) return min; return Math.min(max, Math.max(min, n)); }
+function parsePercentFromSelect(v){ const n = parseInt(String(v).replace('%',''),10); if (isNaN(n)) return 0; return n/100; }
+function formatToBRLNumber(value){ return brl.format(value); }
+function parseBRLStringToNumber(str){
+  if (!str) return 0;
+  let s = String(str).replace(/[R$\s]/g,'').replace(/\./g,'').replace(/,/g,'.');
+  const n = parseFloat(s);
+  return isNaN(n) ? 0 : n;
+}
+function round2(n){ return Math.round((n + Number.EPSILON) * 100) / 100; }
+function roundCommercial2(n){
+  if (!isFinite(n)) return 0;
+  const scaled = Math.floor(n * 1000 + 1e-9);
+  const third = scaled % 10;
+  if (third <= 5) return Math.floor(n * 100 + 1e-9) / 100;
+  else return Math.ceil(n * 100 - 1e-9) / 100;
+}
+function formatCurrencyInputEl(el, rawValue){ el.value = formatToBRLNumber(round2(rawValue)); }
+function formatDateBR(d){ return String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth()+1).padStart(2,'0') + '/' + d.getFullYear(); }
+function addDaysAdjust(d0, days){
+  const d = new Date(d0.getTime());
+  d.setDate(d.getDate() + days);
+  if (d.getDate() >= 29) return new Date(d.getFullYear(), d.getMonth()+1, 1);
+  return d;
+}
+
+const elValorNeg = document.getElementById('valorNeg');
+const elDesconto = document.getElementById('desconto');
+const elEntrada = document.getElementById('entrada');
+const elNumParcelas = document.getElementById('numParcelas');
+const elCartao = document.getElementById('cartao');
+const elDescOutros = document.getElementById('descontoOutros');
+const elEntradaOutros = document.getElementById('entradaOutros');
+
+const outValorVenda = document.getElementById('valorVendaText');
+const outValorEntrada = document.getElementById('valorEntradaText');
+const labelValorEntradaSmall = document.getElementById('labelValorEntradaSmall');
+const outValorParcela = document.getElementById('valorParcelaText');
+const outCartaoParcela = document.getElementById('cartaoParcelaText');
+const outSaldoSemJuros = document.getElementById('saldoSemJurosText');
+const outValorParcelado = document.getElementById('valorParceladoText');
+const outPrimeiraParcela = document.getElementById('primeiraParcelaText');
+const outValorTotalVenda = document.getElementById('valorTotalVendaText');
+const outTotalJuros = document.getElementById('totalJurosText');
+const outPresentes = document.getElementById('presentesValorText');
+const outPresentesFactorLabel = document.getElementById('presentesFactorSmall');
+
+(function populateSelects(){
+  for (let i=0;i<=10;i++){
+    const opt = document.createElement('option'); opt.value = i+'%'; opt.textContent = i+'%';
+    elDesconto.appendChild(opt);
+  }
+  let optOut = document.createElement("option"); optOut.value="outros"; optOut.textContent="Outros"; elDesconto.appendChild(optOut);
+  for (let i=5;i<=50;i+=5){
+    const opt = document.createElement('option'); opt.value = i+'%'; opt.textContent = i+'%';
+    elEntrada.appendChild(opt);
+  }
+  let optOutEntrada = document.createElement("option"); optOutEntrada.value="outros"; optOutEntrada.textContent="Outros"; elEntrada.appendChild(optOutEntrada);
+  for (let i=1;i<=30;i++){
+    const opt = document.createElement('option'); opt.value = i; opt.textContent = i+'x';
+    elNumParcelas.appendChild(opt);
+  }
+  for (let i=1;i<=18;i++){
+    const opt = document.createElement('option'); opt.value = i; opt.textContent = i+'x';
+    elCartao.appendChild(opt);
+  }
+  elDesconto.value = '0%'; elEntrada.value = '10%'; elNumParcelas.value = '30'; elCartao.value = '12';
+})();
+
+function calcularTudo(){
+  const valorNeg = round2(parseBRLStringToNumber(elValorNeg.value));
+  let desconto = parsePercentFromSelect(elDesconto.value);
+  if(elDesconto.value==="outros"){
+    desconto = valorNeg > 0 ? parseBRLStringToNumber(elDescOutros.value) / valorNeg : 0;
+  }
+
+  const valorVenda = round2(valorNeg * (1 - desconto));
+  const maxDesc = round2(valorNeg * 0.10);
+  document.getElementById("descMaxLabel").textContent = "(Máximo " + formatToBRLNumber(maxDesc) + ")";
+
+  const minEntradaVal = round2(valorVenda * 0.05);
+  document.getElementById("minEntradaLabel").textContent = "(Minimo " + formatToBRLNumber(minEntradaVal) + ")";
+
+  let valorEntrada;
+  if(elEntrada.value === "outros"){
+    valorEntrada = parseBRLStringToNumber(elEntradaOutros.value);
+  } else {
+    valorEntrada = round2(valorVenda * parsePercentFromSelect(elEntrada.value));
+  }
+
+  const saldoSemJuros = round2(valorVenda - valorEntrada);
+  const parcelas = clamp(parseInt(elNumParcelas.value,10) || 1, 1, 30);
+  let totalParcelado = parcelas === 1 ? saldoSemJuros : round2(saldoSemJuros * (1 + (parcelas/100)));
+  let paymentMonthly = parcelas === 1 ? totalParcelado : roundCommercial2(totalParcelado / parcelas);
+
+  const valorTotalVenda = round2(valorEntrada + totalParcelado);
+  const totalJuros = round2(valorTotalVenda - valorVenda);
+  const cartaoParcelas = parseInt(elCartao.value,10) || 1;
+  const cartaoParcela = round2(valorVenda / cartaoParcelas);
+
+  outValorVenda.textContent = formatToBRLNumber(valorVenda);
+  outValorEntrada.textContent = formatToBRLNumber(valorEntrada);
+  labelValorEntradaSmall.textContent = '(' + formatToBRLNumber(round2(valorEntrada/12)) + ' em 12x)';
+  outValorParcela.textContent = formatToBRLNumber(paymentMonthly);
+  outCartaoParcela.textContent = formatToBRLNumber(cartaoParcela);
+  outSaldoSemJuros.textContent = formatToBRLNumber(saldoSemJuros);
+  outValorParcelado.textContent = formatToBRLNumber(totalParcelado);
+  outPrimeiraParcela.textContent = formatDateBR(addDaysAdjust(new Date(), 40));
+  outValorTotalVenda.textContent = formatToBRLNumber(valorTotalVenda);
+  outTotalJuros.textContent = formatToBRLNumber(totalJuros);
+  
+  const rawFactor = getComputedStyle(document.documentElement).getPropertyValue('--presentes-factor') || '0.30';
+  let pf = parseFloat(rawFactor); if (pf > 1) pf /= 100;
+  outPresentes.textContent = formatToBRLNumber(round2(valorVenda * pf));
+  outPresentesFactorLabel.textContent = '(' + Math.round(pf*100) + '%)';
+}
+
+/* HANDLERS */
+function handleValorNegInput(e){
+  let onlyNums = e.target.value.replace(/[^\d]/g,'');
+  if (onlyNums === '') { e.target.value = 'R$ 0,00'; calcularTudo(); return; }
+  e.target.value = brl.format(parseFloat(onlyNums) / 100);
+  calcularTudo();
+}
+
+function handleDescontoOutrosInput(e){
+  let onlyNums = e.target.value.replace(/[^\d]/g,'');
+  if (onlyNums === '') { e.target.value = 'R$ 0,00'; calcularTudo(); return; }
+  let asNumber = parseFloat(onlyNums) / 100;
+  const valorNeg = parseBRLStringToNumber(elValorNeg.value);
+  const maxDesc = round2(valorNeg * 0.10);
+  if (asNumber > maxDesc) { showModalDesconto(); asNumber = 0; }
+  e.target.value = brl.format(asNumber);
+  calcularTudo();
+}
+
+function handleEntradaOutrosInput(e){
+  let onlyNums = e.target.value.replace(/[^\d]/g,'');
+  if (onlyNums === '') { e.target.value = 'R$ 0,00'; calcularTudo(); return; }
+  let asNumber = parseFloat(onlyNums) / 100;
+  const valorVenda = parseBRLStringToNumber(outValorVenda.textContent);
+  if (asNumber > valorVenda) { showModalEntradaMax(valorVenda); asNumber = 0; }
+  e.target.value = brl.format(asNumber);
+  calcularTudo();
+}
+
+elEntradaOutros.addEventListener('blur', () => {
+  let asNumber = parseBRLStringToNumber(elEntradaOutros.value);
+  const valorVenda = parseBRLStringToNumber(outValorVenda.textContent);
+  const minE = round2(valorVenda * 0.05);
+  if (asNumber < minE && asNumber > 0) { showModalEntradaMin(minE); asNumber = 0; }
+  formatCurrencyInputEl(elEntradaOutros, asNumber);
+  calcularTudo();
+});
+
+elValorNeg.addEventListener('input', handleValorNegInput);
+elValorNeg.addEventListener('blur', () => formatCurrencyInputEl(elValorNeg, parseBRLStringToNumber(elValorNeg.value)));
+elDescOutros.addEventListener('input', handleDescontoOutrosInput);
+elDescOutros.addEventListener('blur', () => formatCurrencyInputEl(elDescOutros, parseBRLStringToNumber(elDescOutros.value)));
+elEntradaOutros.addEventListener('input', handleEntradaOutrosInput);
+elDesconto.addEventListener('change', e => { document.getElementById("rowDescontoOutros").classList.toggle("show", e.target.value === "outros"); calcularTudo(); });
+elEntrada.addEventListener('change', e => { document.getElementById("rowEntradaOutros").classList.toggle("show", e.target.value === "outros"); calcularTudo(); });
+elNumParcelas.addEventListener('change', calcularTudo);
+elCartao.addEventListener('change', calcularTudo);
+
+/* MODAL LOGIC */
+function showModalDesconto(){ 
+  const valorNeg = parseBRLStringToNumber(elValorNeg.value);
+  document.getElementById('modalMaxDescValue').textContent = formatToBRLNumber(round2(valorNeg * 0.10));
+  document.getElementById('modalDesconto').style.display = 'flex'; 
+}
+function closeModalDesconto(){ document.getElementById('modalDesconto').style.display = 'none'; elDescOutros.value = 'R$ 0,00'; calcularTudo(); }
+function showModalEntradaMin(val){ document.getElementById('modalMinEntradaValue').textContent = formatToBRLNumber(val); document.getElementById('modalEntradaMin').style.display = 'flex'; }
+function closeModalEntradaMin(){ document.getElementById('modalEntradaMin').style.display = 'none'; elEntradaOutros.value = 'R$ 0,00'; calcularTudo(); }
+function showModalEntradaMax(val){ document.getElementById('modalMaxEntradaValue').textContent = formatToBRLNumber(val); document.getElementById('modalEntradaMax').style.display = 'flex'; }
+function closeModalEntradaMax(){ document.getElementById('modalEntradaMax').style.display = 'none'; elEntradaOutros.value = 'R$ 0,00'; calcularTudo(); }
+
+/* TEMAS E ICONES */
+(function themeInit(){
+  const stored = localStorage.getItem('royal_theme');
+  let current = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  const switchBtn = document.getElementById('themeSwitch');
+  const topLogoImg = document.getElementById('topLogo');
+
+  async function applyTheme(theme){
+    document.body.classList.toggle('theme-dark', theme === 'dark');
+    switchBtn.classList.toggle('active', theme === 'dark');
+    const target = getComputedStyle(document.documentElement).getPropertyValue(theme === 'dark' ? '--dark-logo' : '--light-logo').match(/url\("(.*)"\)/)[1];
+    topLogoImg.src = target;
+    localStorage.setItem('royal_theme', theme);
+  }
+  applyTheme(current);
+  switchBtn.onclick = () => { current = current === 'dark' ? 'light' : 'dark'; applyTheme(current); };
+})();
+
+async function injectIcon(spanEl) {
+  const url = spanEl.getAttribute('data-src');
+  try {
+    const resp = await fetch(url);
+    const txt = await resp.text();
+    spanEl.innerHTML = txt;
+    const svg = spanEl.querySelector('svg');
+    svg.querySelectorAll('[fill],[stroke]').forEach(el=>{ el.removeAttribute('fill'); el.removeAttribute('stroke'); });
+  } catch (e) { spanEl.innerHTML = '●'; }
+}
+document.querySelectorAll('.knob span').forEach(injectIcon);
+
+calcularTudo();
+</script>
+</body>
+</html>
