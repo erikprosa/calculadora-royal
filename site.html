@@ -26,12 +26,13 @@
      ========================================================= */
   :root {
     /* --- [NOVO] BOTÃO FLUTUANTE (Configurações) --- */
-    --float-btn-icon: url("https://raw.githubusercontent.com/erikprosa/calculadora-royal/646ff496caf3c5b632a4b60e304eca1e332e9241/images/download_dark.svg"); /* Ícone para tema Light */
-    --float-btn-size: 50px;       /* Tamanho (Largura/Altura) */
-    --float-btn-bottom: 20px;     /* Distância do fundo */
-    --float-btn-right: 20px;      /* Distância da direita */
-    --float-btn-opacity: 1.0;     /* Transparência */
-    --float-btn-bg: transparent;  /* Cor de fundo */
+    /* Ícone para o tema LIGHT (usa a imagem escura) */
+    --float-btn-icon: url("https://raw.githubusercontent.com/erikprosa/calculadora-royal/646ff496caf3c5b632a4b60e304eca1e332e9241/images/download_dark.svg");
+    --float-btn-size: 50px;
+    --float-btn-bottom: 20px;
+    --float-btn-right: 20px;
+    --float-btn-opacity: 1.0;
+    --float-btn-bg: transparent;
 
     /* Fontes Base */
     --font-family-base: Inter, "Segoe UI", Roboto, Arial, sans-serif;
@@ -80,7 +81,7 @@
 
   /* Sobrescrita Global (Tema Dark) */
   .theme-dark {
-    /* --- [NOVO] BOTÃO FLUTUANTE (Ícone Dark) --- */
+    /* --- [NOVO] Ícone Botão Flutuante (Tema Dark usa imagem clara) --- */
     --float-btn-icon: url("https://raw.githubusercontent.com/erikprosa/calculadora-royal/646ff496caf3c5b632a4b60e304eca1e332e9241/images/download_light.svg");
 
     --bg-page: #212830;
@@ -407,18 +408,27 @@
      ESTILOS GERAIS (CSS)
      ----------------------- */
   *{box-sizing:border-box}
-  html,body{height:100%;margin:0;}
-  body{
-    font-family: var(--font-family-base);
+  
+  /* CORREÇÃO CIRÚRGICA DE FUNDO E SCROLL */
+  html {
+    height: 100%;
+    /* Define o fundo no HTML para cobrir o overscroll (puxar pra atualizar) */
     background: var(--bg-page);
+  }
+  
+  body {
+    /* min-height permite que a página cresça e tenha scroll nativo */
+    min-height: 100%;
+    margin: 0;
+    font-family: var(--font-family-base);
+    background: transparent; /* Transparente para usar a cor do html */
     color: var(--accent-color);
-    display:flex;
-    align-items:flex-start;
-    justify-content:center;
-    padding:18px 12px;
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-    transition: background .22s ease, color .22s ease;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 18px 12px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   .wrap{ width:100%; max-width:520px; }
@@ -757,7 +767,7 @@
   
   :root { --presentes-factor: 0.30; }
 
-  /* --- [NOVO] ESTILO DO BOTÃO FLUTUANTE --- */
+  /* --- BOTÃO FLUTUANTE (ESTILO) --- */
   .floating-btn {
     position: fixed;
     bottom: var(--float-btn-bottom);
@@ -1149,14 +1159,17 @@ function closeModalEntradaMax(){ document.getElementById('modalEntradaMax').styl
   const topLogoImg = document.getElementById('topLogo');
 
   async function applyTheme(theme){
-    document.body.classList.toggle('theme-dark', theme === 'dark');
+    // ALTERAÇÃO CIRÚRGICA: Toggling na tag HTML corrige fundo branco no mobile
+    document.documentElement.classList.toggle('theme-dark', theme === 'dark');
+    // REMOVIDO: document.body.classList.toggle(...) para evitar conflito
+    
     switchBtn.classList.toggle('active', theme === 'dark');
     
-    // CORREÇÃO CIRÚRGICA: Busca a variável específica conforme a classe presente no body
+    // Verifica classe no HTML tag para pegar a variável correta
     const style = getComputedStyle(document.documentElement);
     let targetUrl = "";
     
-    if (document.body.classList.contains('theme-dark')) {
+    if (document.documentElement.classList.contains('theme-dark')) {
       targetUrl = style.getPropertyValue('--src-logo-dark');
     } else {
       targetUrl = style.getPropertyValue('--src-logo-light');
