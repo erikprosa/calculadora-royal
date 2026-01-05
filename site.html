@@ -92,7 +92,7 @@
      3. GRUPOS DE COMPONENTES (ORGANIZAÇÃO POR ITEM)
      ========================================================= */
 
-  /* --- [GRUPO] BOTÃO FLUTUANTE --- */
+  /* --- [GRUPO] BOTÃO FLUTUANTE (LIGHT) --- */
   :root {
     --float-w: 50px;
     --float-h: 50px;
@@ -102,6 +102,7 @@
     /* Ícone para o tema LIGHT (usa imagem escura) */
     --float-icon: url("https://raw.githubusercontent.com/erikprosa/calculadora-royal/646ff496caf3c5b632a4b60e304eca1e332e9241/images/download_dark.svg");
   }
+  /* --- [GRUPO] BOTÃO FLUTUANTE (DARK) --- */
   .theme-dark {
     /* Ícone para o tema DARK (usa imagem clara) */
     --float-icon: url("https://raw.githubusercontent.com/erikprosa/calculadora-royal/646ff496caf3c5b632a4b60e304eca1e332e9241/images/download_light.svg");
@@ -122,11 +123,10 @@
     --box-neg-bg: #F8DCDC;
     --box-neg-text: #23395B;
     --box-neg-border: #111;
-    /* Tipografia Específica */
-    --box-neg-fs: 16px;      /* Tamanho */
-    --box-neg-fw: 800;       /* Negrito */
-    --box-neg-style: normal; /* Itálico (normal/italic) */
-    --box-neg-deco: none;    /* Sublinhado (none/underline) */
+    --box-neg-fs: 16px;
+    --box-neg-fw: 800;
+    --box-neg-style: normal;
+    --box-neg-deco: none;
   }
   .theme-dark {
     --box-neg-bg: #F8DCDC;
@@ -139,7 +139,6 @@
     --box-desc-bg: #F8DCDC;
     --box-desc-text: #23395B;
     --box-desc-border: #111;
-    /* Tipografia Específica */
     --box-desc-fs: 16px;
     --box-desc-fw: 800;
     --box-desc-style: normal;
@@ -156,7 +155,6 @@
     --box-desc-out-bg: #F8DCDC;
     --box-desc-out-text: #23395B;
     --box-desc-out-border: #111;
-    /* Tipografia Específica */
     --box-desc-out-fs: 16px;
     --box-desc-out-fw: 800;
     --box-desc-out-style: normal;
@@ -173,7 +171,6 @@
     --box-venda-bg: #D1FAE5;
     --box-venda-text: #23395B;
     --box-venda-border: #111;
-    /* Tipografia Específica */
     --box-venda-fs: 16px;
     --box-venda-fw: 800;
     --box-venda-style: normal;
@@ -190,7 +187,6 @@
     --box-ent-bg: #F8DCDC;
     --box-ent-text: #23395B;
     --box-ent-border: #111;
-    /* Tipografia Específica */
     --box-ent-fs: 16px;
     --box-ent-fw: 800;
     --box-ent-style: normal;
@@ -207,7 +203,6 @@
     --box-ent-out-bg: #F8DCDC;
     --box-ent-out-text: #23395B;
     --box-ent-out-border: #111;
-    /* Tipografia Específica */
     --box-ent-out-fs: 16px;
     --box-ent-out-fw: 800;
     --box-ent-out-style: normal;
@@ -224,7 +219,6 @@
     --box-parc-bg: #F8DCDC;
     --box-parc-text: #23395B;
     --box-parc-border: #111;
-    /* Tipografia Específica */
     --box-parc-fs: 16px;
     --box-parc-fw: 800;
     --box-parc-style: normal;
@@ -241,7 +235,6 @@
     --box-res-ent-bg: #FFFF66;
     --box-res-ent-text: #23395B;
     --box-res-ent-border: #111;
-    /* Tipografia Específica */
     --box-res-ent-fs: 16px;
     --box-res-ent-fw: 800;
     --box-res-ent-style: normal;
@@ -258,7 +251,6 @@
     --box-res-parc-bg: #FFFF66;
     --box-res-parc-text: #23395B;
     --box-res-parc-border: #111;
-    /* Tipografia Específica */
     --box-res-parc-fs: 16px;
     --box-res-parc-fw: 800;
     --box-res-parc-style: normal;
@@ -275,7 +267,6 @@
     --box-card-bg: #F8DCDC;
     --box-card-text: #23395B;
     --box-card-border: #111;
-    /* Tipografia Específica */
     --box-card-fs: 16px;
     --box-card-fw: 800;
     --box-card-style: normal;
@@ -292,7 +283,6 @@
     --box-res-card-bg: #FFFF66;
     --box-res-card-text: #23395B;
     --box-res-card-border: #111;
-    /* Tipografia Específica */
     --box-res-card-fs: 16px;
     --box-res-card-fw: 800;
     --box-res-card-style: normal;
@@ -309,7 +299,6 @@
     --box-saldo-bg: #f6f6f6;
     --box-saldo-text: #23395B;
     --box-saldo-border: #111;
-    /* Tipografia Específica */
     --box-saldo-fs: 16px;
     --box-saldo-fw: 800;
     --box-saldo-style: normal;
@@ -326,7 +315,6 @@
     --box-parc-fin-bg: #f6f6f6;
     --box-parc-fin-text: #23395B;
     --box-parc-fin-border: #111;
-    /* Tipografia Específica */
     --box-parc-fin-fs: 16px;
     --box-parc-fin-fw: 800;
     --box-parc-fin-style: normal;
@@ -343,7 +331,6 @@
     --box-data-bg: #f6f6f6;
     --box-data-text: #23395B;
     --box-data-border: #111;
-    /* Tipografia Específica */
     --box-data-fs: 16px;
     --box-data-fw: 800;
     --box-data-style: normal;
@@ -360,7 +347,6 @@
     --box-total-venda-bg: #f6f6f6;
     --box-total-venda-text: #23395B;
     --box-total-venda-border: #111;
-    /* Tipografia Específica */
     --box-total-venda-fs: 16px;
     --box-total-venda-fw: 800;
     --box-total-venda-style: normal;
@@ -377,7 +363,6 @@
     --box-juros-bg: #f6f6f6;
     --box-juros-text: #23395B;
     --box-juros-border: #111;
-    /* Tipografia Específica */
     --box-juros-fs: 16px;
     --box-juros-fw: 800;
     --box-juros-style: normal;
@@ -394,7 +379,6 @@
     --box-gift-bg: #f6f6f6;
     --box-gift-text: #23395B;
     --box-gift-border: #111;
-    /* Tipografia Específica */
     --box-gift-fs: 16px;
     --box-gift-fw: 800;
     --box-gift-style: normal;
@@ -411,20 +395,25 @@
      ESTILOS GERAIS (CSS)
      ----------------------- */
   *{box-sizing:border-box}
-  html{height:100%;}
-  body{
-    min-height:100%;
-    margin:0;
-    font-family: var(--font-family-base);
+  
+  /* CORREÇÃO CIRÚRGICA: Define cor de fundo no HTML para cobrir overscroll */
+  html {
+    height: 100%;
     background: var(--bg-page);
+  }
+  
+  body {
+    min-height: 100%;
+    margin: 0;
+    font-family: var(--font-family-base);
+    background: transparent; /* Permite que o fundo do HTML apareça */
     color: var(--accent-color);
-    display:flex;
-    align-items:flex-start;
-    justify-content:center;
-    padding:18px 12px;
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-    transition: background .22s ease, color .22s ease;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 18px 12px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   .wrap{ width:100%; max-width:520px; }
@@ -1153,13 +1142,17 @@ function closeModalEntradaMax(){ document.getElementById('modalEntradaMax').styl
   const topLogoImg = document.getElementById('topLogo');
 
   async function applyTheme(theme){
-    document.body.classList.toggle('theme-dark', theme === 'dark');
+    // ALTERAÇÃO CIRÚRGICA: Toggling na tag HTML corrige fundo branco no mobile
+    document.documentElement.classList.toggle('theme-dark', theme === 'dark');
+    // document.body.classList.toggle('theme-dark', theme === 'dark'); // Removido
+    
     switchBtn.classList.toggle('active', theme === 'dark');
     
     const style = getComputedStyle(document.documentElement);
     let targetUrl = "";
     
-    if (document.body.classList.contains('theme-dark')) {
+    // Verifica classe no HTML tag
+    if (document.documentElement.classList.contains('theme-dark')) {
       targetUrl = style.getPropertyValue('--src-logo-dark');
     } else {
       targetUrl = style.getPropertyValue('--src-logo-light');
